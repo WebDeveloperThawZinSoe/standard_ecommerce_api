@@ -18,7 +18,7 @@
     $logo = App\Models\GeneralSetting::where("name","logo")->first();
     $generalSettings = App\Models\GeneralSetting::whereIn('name', [
     'about_us', 'how_to_sell_us', 'phone_number_1', 'phone_number_2', 'phone_number_3',
-    'email_1', 'email_2', 'email_3', 'facebook', 'telegram','address', 'discord' , 'viber' , 'skype'
+    'email_1', 'email_2', 'email_3', 'facebook', 'telegram','address', 'discord' , 'viber' , 'skype' , 'announcement' , 'customer_feedback_system' , 'customer_feedback_system_guest'  , 'customer_feedback_system_order'
     ])->pluck('value', 'name');
     @endphp
     <!-- FAVICONS ICON -->
@@ -97,6 +97,7 @@
     </style>
     <!-- MOBILE SPECIFIC -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- STYLESHEETS -->
     <link rel="stylesheet" type="text/css"
@@ -156,8 +157,19 @@
     Swal.fire({
         icon: 'success',
         title: 'Success',
-        text: '{{ session('
-        success ') }}',
+        text: "{{ session('success') }}",
+        confirmButtonText: 'OK',
+    });
+    </script>
+    @endif
+
+
+    @if (session('error'))
+    <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Fail',
+        text: "{{ session('error') }}",
         confirmButtonText: 'OK',
     });
     </script>

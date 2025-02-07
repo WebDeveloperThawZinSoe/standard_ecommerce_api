@@ -30,7 +30,12 @@ class GeneralSettingController extends Controller
             'about_us',
             'how_to_sell_us',
             'logo',
-            'contact_us'
+            'contact_us',
+            'announcement',
+            'customer_feedback_system',
+            'customer_feedback_system_guest',
+            'customer_feedback_system_order',
+            'customer_feedback_system_default_pending'
         ])->get()->keyBy('name');
 
         return view('admin.generalSetting.index', compact('generalSettings'));
@@ -57,8 +62,18 @@ class GeneralSettingController extends Controller
             'about_us',
             'how_to_sell_us',
             'logo',
-            'contact_us'
+            'contact_us',
+            'announcement',
+            'customer_feedback_system',
+            'customer_feedback_system_guest',
+            'customer_feedback_system_order',
+            'customer_feedback_system_default_pending'
         ];
+
+        $field['customer_feedback_system'] = isset($request->customer_feedback_system) ? "on" : "off";
+        $field['customer_feedback_system_guest'] = isset($request->customer_feedback_system_guest) ? "on" : "off";
+        $field['customer_feedback_system_order'] = isset($request->customer_feedback_system_order) ? "on" : "off";
+        $field['customer_feedback_system_default_pending'] = isset($request->customer_feedback_system_default_pending) ? "on" : "off";
 
         foreach ($fields as $field) {
             $setting = GeneralSetting::firstOrNew(['name' => $field]);

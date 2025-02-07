@@ -41,6 +41,28 @@ marquee {
     }
 }
 </style>
+@php
+$logo = App\Models\GeneralSetting::where('name', 'logo')->first();
+$generalSettings = App\Models\GeneralSetting::whereIn('name', [
+'about_us',
+'how_to_sell_us',
+'phone_number_1',
+'phone_number_2',
+'phone_number_3',
+'email_1',
+'email_2',
+'email_3',
+'facebook',
+'telegram',
+'discord',
+'viber',
+'skype',
+'announcement',
+'customer_feedback_system',
+'customer_feedback_system_guest',
+'customer_feedback_system_order'
+])->pluck('value', 'name');
+@endphp
 <div class="page-content bg-white">
     @php
     $photos = App\Models\Gallery::orderBy("sort","desc")->get();
@@ -64,10 +86,11 @@ marquee {
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+    @if($generalSettings['announcement'])
     <marquee behavior="scroll" direction="left" scrollamount="6" class="marquee-container">
-        🚚 Enjoy Free Shipping Across Malaysia & Singapore! ✨ Min. Spend RM80 💳 Shop Now & Save More!
+       {{$generalSettings['announcement']}}
     </marquee>
-
+    @endif
 
     <!--Recommend Section Start-->
     <section class="content-inner-1 ">

@@ -1,6 +1,56 @@
 @extends('web.master')
 @section('body')
 
+
+@php
+$logo = App\Models\GeneralSetting::where('name', 'logo')->first();
+$generalSettings = App\Models\GeneralSetting::whereIn('name', [
+'about_us',
+'how_to_sell_us',
+'phone_number_1',
+'phone_number_2',
+'phone_number_3',
+'email_1',
+'email_2',
+'email_3',
+'facebook',
+'telegram',
+'discord',
+'viber',
+'skype',
+'announcement',
+'customer_feedback_system',
+'customer_feedback_system_guest',
+'customer_feedback_system_order'
+])->pluck('value', 'name');
+@endphp
+
+<style>
+    .star-rating {
+    direction: rtl;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: #ddd;
+    font-size: 24px;
+    padding: 0 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label,
+.star-rating input:checked~label {
+    color: #ffc107;
+}
+</style>
+
 <style>
 .variant-buttons .variant-option {
     padding: 10px 20px;
@@ -129,8 +179,8 @@
                                     @php
                                     use App\Models\Currency;
 
-                                    // Get selected currency from session (default to 'USD')
-                                    $currencyCode = session('currency', 'USD');
+                                    // Get selected currency from session (default to 'SGD')
+                                    $currencyCode = session('currency', 'SGD');
 
                                     // Retrieve currency details from the database
                                     $currency = Currency::where('code', $currencyCode)->first();
@@ -264,44 +314,7 @@
         document.getElementById('mainImageLink').href = imageUrl;
     }
 
-    // Variant selection event handler
-    // document.querySelectorAll('.variant-option').forEach(button => {
-    //     button.addEventListener('click', function() {
-    //         button.querySelector('input').checked = true;
-    //         document.querySelectorAll('.variant-option').forEach(btn => btn.classList
-    //             .remove('active'));
-    //         button.classList.add('active');
-
-    //         // Update product price based on selected variant
-    //         const variantPrice = button.getAttribute('data-price');
-    //         const show_price_org = Number(button.getAttribute('data-showPrice'));
-    //         console.log("Parsed Original Price:", show_price_org);
-    //         // Ensure exchangeRate is properly converted
-    //         let exchangeRate = {
-    //             {
-    //                 is_numeric($exchangeRate) ? $exchangeRate : 1
-    //             }
-    //         };
-    //         console.log("Parsed Exchange Rate:", exchangeRate);
-
-    //         let show_price = show_price_org * exchangeRate;
-
-    //         let currencySymbol = "{{ $currencySymbol }}";
-    //         document.getElementById('product-price').innerHTML = show_price.toFixed(2) + " " +
-    //             currencySymbol;
-
-
-    //         // Set the selected variant ID in the hidden form field
-    //         document.getElementById('variant_id').value = button.querySelector('input')
-    //             .value;
-
-    //         // Update main image based on selected variant's image
-    //         const variantImage = button.getAttribute('data-image');
-    //         if (variantImage) {
-    //             changeMainImage(variantImage);
-    //         }
-    //     });
-    // });
+    
 
     // Variant selection event handler
 document.querySelectorAll('.variant-option').forEach(button => {
@@ -374,7 +387,7 @@ document.querySelectorAll('.variant-option').forEach(button => {
 
 
 
-    <section class="content-inner-3 pb-0">
+<section class="content-inner-3 pb-0">
         <div class="container">
             <div class="product-description">
                 <div class="dz-tabs">
@@ -385,14 +398,109 @@ document.querySelectorAll('.variant-option').forEach(button => {
                                 aria-selected="true">Description</button>
                         </li>
 
+                        @if($generalSettings['customer_feedback_system'])
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review-pane"
+                                type="button" role="tab" aria-controls="review-pane"
+                                aria-selected="false">Review</button>
+                        </li>
+
+                        @endif
                     </ul>
+
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
                             aria-labelledby="home-tab" tabindex="0">
                             {!! $detail_product->description !!}
                         </div>
 
+                        <div class="tab-pane fade" id="review-pane" role="tabpanel" aria-labelledby="review-tab"
+                            tabindex="0">
+                            <h3 class="mb-4">Customer Reviews</h3>
+
+                            @php
+                            $reviews = App\Models\ProductFeedBack::where('product_id', $detail_product->id)->where("status",1)->orderBy("id","desc")->get();
+                            @endphp
+
+                            @if($reviews->count() > 0)
+                            <div class="list-group">
+                                @foreach($reviews as $review)
+                                <div class="list-group-item p-3 border rounded shadow-sm mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h5 class="mb-1">{{ $review->user->name ?? 'Anonymous' }}</h5>
+                                        </div>
+                                        <div class="text-warning">
+                                            @for($i = 1; $i <= 5; $i++) @if($i <=$review->review_star)
+                                                <i class="bi bi-star-fill"></i>
+                                                @else
+                                                <i class="bi bi-star"></i>
+                                                @endif
+                                                @endfor
+                                        </div>
+                                    </div>
+                                    <p class="mt-2 mb-0 text-muted">{{ $review->message }}</p>
+                                </div>
+                                @endforeach
+                            </div>
+
+                            @else
+                            <p class="text-muted">No reviews yet. Be the first to leave a review!</p>
+                            @endif
+
+                            @if($generalSettings['customer_feedback_system_guest'] == "on")
+                            <form action="{{route('submit.review')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{$detail_product->id}}">
+                                <div class="mb-3">
+                                    <h5 class="mb-4">Interactive Star Rating</h5>
+                                    <div class="star-rating animated-stars">
+                                        <input type="radio" id="star5" name="rating" value="5">
+                                        <label for="star5" class="bi bi-star-fill"></label>
+                                        <input type="radio" id="star4" name="rating" value="4">
+                                        <label for="star4" class="bi bi-star-fill"></label>
+                                        <input type="radio" id="star3" name="rating" value="3">
+                                        <label for="star3" class="bi bi-star-fill"></label>
+                                        <input type="radio" id="star2" name="rating" value="2">
+                                        <label for="star2" class="bi bi-star-fill"></label>
+                                        <input type="radio" id="star1" name="rating" value="1">
+                                        <label for="star1" class="bi bi-star-fill"></label>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Your Review</label>
+                                    <textarea class="form-control" name="message" id="message" rows="4"
+                                        required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                </div>
+                            </form>
+
+                            <script>
+                            document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
+                                star.addEventListener('click', function() {
+                                    this.style.transform = 'scale(1.2)';
+                                    setTimeout(() => {
+                                        this.style.transform = 'scale(1)';
+                                    }, 200);
+                                });
+                            });
+                            </script>
+
+                            @else
+                            <p class="text-muted">To leave a review, please <a href="/login">log in here</a>.</p>
+                            @endif
+                        </div>
                     </div>
+
+
+
+
                 </div>
             </div>
         </div>
@@ -415,54 +523,7 @@ document.querySelectorAll('.variant-option').forEach(button => {
                                     <div class="dz-media">
                                         <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
                                             style="max-height:300px !important" loading="lazy">
-                                        <!--<div class="shop-meta">-->
-                                        <!--    <a href="/whitelist/{{$product->id}}">-->
-                                        <!--        <div class="btn btn-primary meta-icon dz-wishicon">-->
-                                        <!--            <svg class="dz-heart-fill" width="14" height="12"-->
-                                        <!--                viewBox="0 0 14 12" fill="none"-->
-                                        <!--                xmlns="http://www.w3.org/2000/svg">-->
-                                        <!--                <path-->
-                                        <!--                    d="M13.6412 5.80113C13.0778 6.9649 12.0762 8.02624 11.1657 8.8827C10.5113 9.49731 9.19953 10.7322 7.77683 11.62C7.30164 11.9159 6.69842 11.9159 6.22323 11.62C4.80338 10.7322 3.4888 9.49731 2.83435 8.8827C1.92382 8.02624 0.92224 6.96205 0.358849 5.80113C-0.551681 3.91747 0.344622 1.44196 2.21121 0.557041C3.98674 -0.282354 5.54034 0.292418 7.00003 1.44765C8.45972 0.292418 10.0133 -0.282354 11.786 0.557041C13.6554 1.44196 14.5517 3.91747 13.6412 5.80113Z"-->
-                                        <!--                    fill="white" />-->
-                                        <!--            </svg>-->
-                                        <!--            <svg class="dz-heart feather feather-heart"-->
-                                        <!--                xmlns="http://www.w3.org/2000/svg" width="14" height="14"-->
-                                        <!--                viewBox="0 0 24 24" fill="none" stroke="currentColor"-->
-                                        <!--                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
-                                        <!--                <path-->
-                                        <!--                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">-->
-                                        <!--                </path>-->
-                                        <!--            </svg>-->
-
-                                        <!--        </div>-->
-                                        <!--    </a>-->
-                                        <!--    <a href="/cart/{{$product->id}}">-->
-                                        <!--        <div class="btn btn-primary meta-icon dz-carticon">-->
-                                        <!--            <svg class="dz-cart-check" width="15" height="15"-->
-                                        <!--                viewBox="0 0 15 15" fill="none"-->
-                                        <!--                xmlns="http://www.w3.org/2000/svg">-->
-                                        <!--                <path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438"-->
-                                        <!--                    stroke="white" stroke-width="2" stroke-linecap="round"-->
-                                        <!--                    stroke-linejoin="round" />-->
-                                        <!--            </svg>-->
-                                        <!--            <svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14"-->
-                                        <!--                fill="none" xmlns="http://www.w3.org/2000/svg">-->
-                                        <!--                <path-->
-                                        <!--                    d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z"-->
-                                        <!--                    fill="white" />-->
-                                        <!--                <path-->
-                                        <!--                    d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z"-->
-                                        <!--                    fill="white" />-->
-                                        <!--                <path-->
-                                        <!--                    d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z"-->
-                                        <!--                    fill="white" />-->
-                                        <!--                <clipPath id="clip0_5_3906">-->
-                                        <!--                    <rect width="14" height="14" fill="white" />-->
-                                        <!--                </clipPath>-->
-                                        <!--            </svg>-->
-                                        <!--        </div>-->
-                                        <!--    </a>-->
-                                        <!--</div>-->
+                                       
                                     </div>
                                     <div class="dz-content">
                                         <h5 class="title">{{ $product->name }}</h5>

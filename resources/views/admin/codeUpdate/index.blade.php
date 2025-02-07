@@ -66,6 +66,31 @@
                             <div class="card-header">
                                     <br>
                                     <center>
+                                     <img src="{{asset('images/update/anonymous.jpg')}}" style="width:200px" alt="">
+                                     </center>
+                                </div>
+                                <div class="card-body">
+                                    <h4>Anonymous Review </h4>
+                                    <p>
+                                       Review System With Anonymous
+                                    </p>
+                                    <p>
+                                        Price : <del>200,000</del> 100,000 Kyats
+                                    </p>
+                                    <p>
+                                        Duration : 1 week
+                                    </p>
+                                    <p>
+                                        Contact Now : <a href="tel:09403077739">09403077739</a> , <a href="mailto:thawzinsoe.dev@gmail.com">thawzinsoe.dev@gmail.com</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                            <div class="card-header">
+                                    <br>
+                                    <center>
                                      <img src="{{asset('images/update/email.png')}}" alt="">
                                      </center>
                                 </div>

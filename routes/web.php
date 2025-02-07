@@ -202,3 +202,4 @@ Route::get("/pre_order",[PageController::class,"preOrder"]);
 Route::get('auth/{provider}', [SocialAuthController::class, 'redirectToProvider'])->name('auth.provider');
 Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])->name('auth.callback');
 Route::get('/change-currency/{currencyCode}', [CurrencyChangerController::class, 'changeCurrency'])->name('change.currency');
+Route::post("/submit/review",[PageController::class,"submitReview"])->name("submit.review");

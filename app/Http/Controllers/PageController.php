@@ -12,6 +12,8 @@ use App\Models\Brand;
 use App\Models\ProductVariants;
 use App\Models\Order;
 use App\Models\Goal;
+use App\Models\ProductFeedBack;
+use App\Models\GeneralSetting;
 
 class PageController extends Controller
 {
@@ -292,5 +294,83 @@ class PageController extends Controller
         ];        
         return view("web.products_pre_order")->with($data);
     }
+
+
+    // submitReview
+    public function submitReview(Request $request)
+    {
+        // Validate request data
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',
+            'message' => 'nullable|string',
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        // Fetch general settings
+        $defaultPendingStatus = GeneralSetting::where("name", "customer_feedback_system_default_pending")->value("value");
+        $status = ($defaultPendingStatus == "on") ? 1 : 0;
+        
+
+        $customerFeedbackSystemOrder = GeneralSetting::where("name", "customer_feedback_system_order")->value("value");
+        // dd($customerFeedbackSystemOrder);
+
+        // Check if customer must purchase before review
+        if ($customerFeedbackSystemOrder == "on" && Auth::check()) {
+            $orders = Order::where("user_id", Auth::id())->where("status", "2")->get();
+
+            // $purchasedProductIds = $orders->flatMap(fn($order) => $order->orderDetails->pluck('product_variant_id'))->unique();
+
+            if ($customerFeedbackSystemOrder == "on" && Auth::check()) {
+                $orders = Order::where("user_id", Auth::id())->where("status", "2")->get();
+            
+                // Get the list of product IDs through product variants in the order details
+                $purchasedProductIds = $orders->flatMap(function ($order) {
+                    return $order->orderDetails->map(function ($orderDetail) {
+                        return $orderDetail->productVaraints->product_id ?? null; // Safeguard against null values
+                    });
+                })->filter()->unique(); // Remove null values and ensure unique product IDs
+
+            
+                if (!$purchasedProductIds->contains($request->product_id)) {
+                    return redirect()->back()->with('error', 'You need to buy this product first!');
+                }
+            }
+
+            
+
+            if (!$purchasedProductIds->contains($request->product_id)) {
+                return redirect()->back()->with('error', 'You need to buy this product first!');
+            }
+        }else{
+            return redirect()->back()->with('error', 'You need to login first and you need to buy this product first!');
+        }
+
+        // Initialize feedback instance
+        $feedback = new ProductFeedBack([
+            'product_id' => $request->product_id,
+            'review_star' => $request->rating,
+            'message' => $request->message,
+            'status' => $status,
+        ]);
+
+        if (Auth::check()) {
+            $feedback->user_id = Auth::id();
+        } else {
+            // Capture user information for guests
+            $userInfo = [
+                'IP' => $request->ip(),
+                'User-Agent' => $request->header('User-Agent'),
+                'Accept-Language' => $request->header('Accept-Language'),
+            ];
+            $feedback->user_information_data = json_encode($userInfo);
+        }
+
+        // Save feedback and return response
+        $feedback->save();
+
+        return redirect()->back()->with('success', 'Review submitted successfully!');
+    }
+
+
         
 }

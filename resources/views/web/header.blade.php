@@ -14,6 +14,10 @@ $generalSettings = App\Models\GeneralSetting::whereIn('name', [
 'discord',
 'viber',
 'skype',
+'announcement',
+'customer_feedback_system',
+'customer_feedback_system_guest',
+'customer_feedback_system_order'
 ])->pluck('value', 'name');
 @endphp
 
@@ -369,7 +373,7 @@ $currencies = App\Models\Currency::all();
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="currencyDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                 Currency <span class="caret"></span>
+                                Currency <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
                                 @foreach ($currencies as $currency)
