@@ -186,7 +186,7 @@ Route::get("/products/{id}/detail",[PageController::class,"productDetail"]);
 Route::get("/products/category/{id}",[PageController::class,"productsCategory"])->name("productsCategory");
 Route::get("/brands",[PageController::class,"brands"])->name("brands");
 Route::get("/brands/{id}",[PageController::class,"brandDetail"])->name("brandDetail");
-Route::Get("/goals/{name}",[PageController::class,"goalsPage"])->name("goalsPage");
+Route::get("/goals/{name}",[PageController::class,"goalsPage"])->name("goalsPage");
 Route::get("/faq",[PageController::class,"faq"])->name("faq");
 Route::get("/sell-to-us",[PageController::class,"sellToUs"])->name("sell_to_us");
 Route::get("/member",[PageController::class,"member"])->name("member");

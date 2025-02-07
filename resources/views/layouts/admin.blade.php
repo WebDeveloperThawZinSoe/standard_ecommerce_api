@@ -97,7 +97,7 @@
             <span class="icon-holder">
                 <i class="anticon anticon-global"></i>
             </span>
-            <span class="title">Visit Website</span>
+            <span class="title">Visit Shop</span>
         </a>
     </li>
 
@@ -221,7 +221,7 @@
             <span class="icon-holder">
                 <i class="anticon anticon-message"></i>
             </span>
-            <span class="title">Customer Feedback</span>
+            <span class="title">Contact Message</span>
         </a>
     </li>
 

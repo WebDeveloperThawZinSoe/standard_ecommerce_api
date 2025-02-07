@@ -37,7 +37,7 @@ $currencies = App\Models\Currency::all();
 
     .logo-header,
     .logo-dark {
-        width: 360px !important;
+        width: 80% !important;
     }
 }
 
@@ -46,6 +46,8 @@ $currencies = App\Models\Currency::all();
         display: none !important;
     }
 }
+
+
 </style>
 <header class="site-header mo-left header style-2">
     <!-- Main Header -->
@@ -141,8 +143,21 @@ $currencies = App\Models\Currency::all();
                 <div class="logo-header logo-dark">
                     <a href="/"><img src="{{ asset('images/general_settings/' . $logo->value) }}" alt="logo"
                             style="width:65% !important"></a>
-
-                    <a style="padding-top:12px !important;padding-left:55% !important;" href="javascript:void(0);"
+                    <li style="padding-top:12px !important;padding-left:5% !important;" class="nav-item dropdown show_only_in_mobile">
+                        <a href="#" class="nav-link dropdown-toggle" id="currencyDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false"  style="color:black !important">
+                                Currency ( {{  $currencyCode = session('currency', 'SGD');
+                            }} ) <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                                @foreach ($currencies as $currency)
+                                <li><a class="dropdown-item"
+                                        href="{{ route('change.currency', $currency->code) }}">{{ $currency->name }}
+                                        ({{ $currency->symbol }})</a></li>
+                                @endforeach
+                            </ul>
+                    </li>
+                    <a  style="padding-top:12px !important;padding-left:5% !important;" href="javascript:void(0);"
                         class="show_only_in_mobile nav-link cart-btn" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                         <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -354,7 +369,7 @@ $currencies = App\Models\Currency::all();
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="currencyDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Currency <span class="caret"></span>
+                                 Currency <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
                                 @foreach ($currencies as $currency)
@@ -457,7 +472,7 @@ $currencies = App\Models\Currency::all();
                             <div class="shop-sidebar-cart">
                                 <ul class="sidebar-cart-list">
                                 @php
-                                            $currencyCode = session('currency', 'USD');
+                                            $currencyCode = session('currency', 'SGD');
                                             $currency = App\Models\Currency::where('code', $currencyCode)->first();
                                             $currencySymbol = $currency->symbol ?? '$';
                                             $exchangeRate = $currency->exchange_rate ?? 1;
