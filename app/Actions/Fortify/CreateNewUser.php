@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules;
 use App\Models\CustomerType;
 use App\Models\Type;
+use App\Events\NewUserRegisterEvent;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -43,6 +44,8 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
             'phone' => $input["phone"]
         ]);
+
+        // NewUserRegisterEvent::dispatch($user);
 
 
         // Assign a default role to the user

@@ -483,6 +483,23 @@
     <!-- SweetAlert2 for error display -->
     @if ($errors->any())
     <script>
+    import Echo from 'laravel-echo';
+    window.Pusher = require('pusher-js');
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: process.env.MIX_PUSHER_APP_KEY,
+        cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+        forceTLS: true
+    });
+
+    window.Echo.channel('orders')
+        .listen('.order.placed', (event) => {
+            console.log('Order Placed:', event.order);
+            alert(`New order placed: ${event.order.order_number}`);
+        });
+    </script>
+    <script>
     Swal.fire({
         icon: 'error',
         title: 'Login Failed',

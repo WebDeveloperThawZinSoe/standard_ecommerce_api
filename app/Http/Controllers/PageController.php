@@ -14,6 +14,8 @@ use App\Models\Order;
 use App\Models\Goal;
 use App\Models\ProductFeedBack;
 use App\Models\GeneralSetting;
+use App\Events\NewUserRegisterEvent;
+use App\Models\User;
 
 class PageController extends Controller
 {
@@ -373,5 +375,18 @@ class PageController extends Controller
     }
 
 
+    public function pusherTest()
+    {
+        return view('web.pusherTest');
+    }
+
+    public function pushterTestPost()
+    {
+        $user = User::find(1); // or create/register a user instance
+        if ($user) {
+            NewUserRegisterEvent::dispatch($user);
+        }
+        return response()->json(['status' => 'Event dispatched']);
+    }
         
 }

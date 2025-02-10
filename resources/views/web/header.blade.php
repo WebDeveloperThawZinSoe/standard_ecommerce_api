@@ -50,8 +50,6 @@ $currencies = App\Models\Currency::all();
         display: none !important;
     }
 }
-
-
 </style>
 <header class="site-header mo-left header style-2">
     <!-- Main Header -->
@@ -147,21 +145,22 @@ $currencies = App\Models\Currency::all();
                 <div class="logo-header logo-dark">
                     <a href="/"><img src="{{ asset('images/general_settings/' . $logo->value) }}" alt="logo"
                             style="width:65% !important"></a>
-                    <li style="padding-top:12px !important;padding-left:5% !important;" class="nav-item dropdown show_only_in_mobile">
+                    <li style="padding-top:12px !important;padding-left:5% !important;"
+                        class="nav-item dropdown show_only_in_mobile">
                         <a href="#" class="nav-link dropdown-toggle" id="currencyDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false"  style="color:black !important">
-                                Currency ( {{  $currencyCode = session('currency', 'SGD');
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color:black !important">
+                            Currency ( {{  $currencyCode = session('currency', 'SGD');
                             }} ) <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
-                                @foreach ($currencies as $currency)
-                                <li><a class="dropdown-item"
-                                        href="{{ route('change.currency', $currency->code) }}">{{ $currency->name }}
-                                        ({{ $currency->symbol }})</a></li>
-                                @endforeach
-                            </ul>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                            @foreach ($currencies as $currency)
+                            <li><a class="dropdown-item"
+                                    href="{{ route('change.currency', $currency->code) }}">{{ $currency->name }}
+                                    ({{ $currency->symbol }})</a></li>
+                            @endforeach
+                        </ul>
                     </li>
-                    <a  style="padding-top:12px !important;padding-left:5% !important;" href="javascript:void(0);"
+                    <a style="padding-top:12px !important;padding-left:5% !important;" href="javascript:void(0);"
                         class="show_only_in_mobile nav-link cart-btn" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                         <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -475,12 +474,12 @@ $currencies = App\Models\Currency::all();
                             aria-labelledby="shopping-cart" tabindex="0">
                             <div class="shop-sidebar-cart">
                                 <ul class="sidebar-cart-list">
-                                @php
-                                            $currencyCode = session('currency', 'SGD');
-                                            $currency = App\Models\Currency::where('code', $currencyCode)->first();
-                                            $currencySymbol = $currency->symbol ?? '$';
-                                            $exchangeRate = $currency->exchange_rate ?? 1;
-                                            @endphp
+                                    @php
+                                    $currencyCode = session('currency', 'SGD');
+                                    $currency = App\Models\Currency::where('code', $currencyCode)->first();
+                                    $currencySymbol = $currency->symbol ?? '$';
+                                    $exchangeRate = $currency->exchange_rate ?? 1;
+                                    @endphp
                                     @php
                                     $cards = auth()->check()
                                     ? App\Models\Card::where('user_id', auth()->id())
@@ -507,33 +506,42 @@ $currencies = App\Models\Currency::all();
                                                     <div class="btn-quantity  light quantity-sm me-3">
                                                         QTY: {{ $card->qty }}
                                                     </div>
-                                                    
+
                                                     <h6 class="dz-price text-primary mb-0">
-    @php
-        $variantProductPrice = $card->product_variant->price;
-        $variantProductPriceOrg = $card->product_variant->price;
-        $vDiscountType = $card->product_variant->discount_type;
-        $vDiscountAmount = $card->product_variant->discount_amount;
+                                                        @php
+                                                        $variantProductPrice = $card->product_variant->price;
+                                                        $variantProductPriceOrg = $card->product_variant->price;
+                                                        $vDiscountType = $card->product_variant->discount_type;
+                                                        $vDiscountAmount = $card->product_variant->discount_amount;
 
-        // Calculate the prices with exchange rate
-        $variantProductPriceOrgWithExchange = $variantProductPriceOrg * $exchangeRate;
-        $finalPrice = $variantProductPrice;
+                                                        // Calculate the prices with exchange rate
+                                                        $variantProductPriceOrgWithExchange = $variantProductPriceOrg *
+                                                        $exchangeRate;
+                                                        $finalPrice = $variantProductPrice;
 
-        if ($vDiscountType == 0) {
-            $finalPrice = $variantProductPrice;
-            echo number_format($finalPrice * $exchangeRate, 2) . " " . $currencySymbol;
-        } elseif ($vDiscountType == 1) {
-            $finalPrice = $variantProductPrice - $vDiscountAmount;
-            echo "<del>" . number_format($variantProductPriceOrgWithExchange, 2) . " </del> " . number_format($finalPrice * $exchangeRate, 2) . " " . $currencySymbol;
-        } elseif ($vDiscountType == 2) {
-            $finalPrice = $variantProductPrice - ($variantProductPrice * ($vDiscountAmount / 100));
-            echo "<del>" . number_format($variantProductPriceOrgWithExchange, 2) . " </del> " . number_format($finalPrice * $exchangeRate, 2) . " " . $currencySymbol;
-        }
+                                                        if ($vDiscountType == 0) {
+                                                        $finalPrice = $variantProductPrice;
+                                                        echo number_format($finalPrice * $exchangeRate, 2) . " " .
+                                                        $currencySymbol;
+                                                        } elseif ($vDiscountType == 1) {
+                                                        $finalPrice = $variantProductPrice - $vDiscountAmount;
+                                                        echo "<del>" .
+                                                            number_format($variantProductPriceOrgWithExchange, 2) . "
+                                                        </del> " . number_format($finalPrice * $exchangeRate, 2) . " " .
+                                                        $currencySymbol;
+                                                        } elseif ($vDiscountType == 2) {
+                                                        $finalPrice = $variantProductPrice - ($variantProductPrice *
+                                                        ($vDiscountAmount / 100));
+                                                        echo "<del>" .
+                                                            number_format($variantProductPriceOrgWithExchange, 2) . "
+                                                        </del> " . number_format($finalPrice * $exchangeRate, 2) . " " .
+                                                        $currencySymbol;
+                                                        }
 
-        // Calculate total price for the card
-        $totalPrice += $finalPrice * $card->qty;
-    @endphp
-</h6>
+                                                        // Calculate total price for the card
+                                                        $totalPrice += $finalPrice * $card->qty;
+                                                        @endphp
+                                                    </h6>
 
                                                 </div>
                                             </div>
@@ -585,14 +593,15 @@ $currencies = App\Models\Currency::all();
                                     }
                                     }
                                     $original_price = $original_price * $exchangeRate;
-                                   
+
                                     @endphp
                                     @if ($cupon_code == null)
-                                   
+
                                     <h5 class="mb-0">{{ number_format($original_price, 2) }} {{$currencySymbol}}</h5>
                                     @else
                                     @php $after_discount_price = $after_discount_price * $exchangeRate; @endphp
-                                    <h5 class="mb-0"><del>{{ number_format($original_price, 2) }}</del>{{ $currencySymbol}}
+                                    <h5 class="mb-0">
+                                        <del>{{ number_format($original_price, 2) }}</del>{{ $currencySymbol}}
                                         <br>
                                         {{ number_format($after_discount_price, 2) }}{{ $currencySymbol}}
 
