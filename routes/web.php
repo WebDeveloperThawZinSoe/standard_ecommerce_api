@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\SupplyController;
 use App\Http\Controllers\Admin\CuponCodeController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\AdminDeliveryController;
+use App\Http\Controllers\Admin\ProductFeedBackController;
 use App\Http\Controllers\UpdateCodeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CartController;
@@ -60,7 +61,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('general_settings', GeneralSettingController::class);
     Route::resource("goal",GoalController::class);
     Route::resource("supply",SupplyController::class);
-    Route::resource("cupon",CuponCodeController::class);
+    Route::resource("cupon",CuponCodeController::class);    
+    Route::resource("product_feedback", ProductFeedBackController::class)->names([
+        'index' => 'feedback.index',
+        'create' => 'feedback.create',
+        'store' => 'feedback.store',
+        'show' => 'feedback.show',
+        'edit' => 'feedback.edit',
+        'update' => 'feedback.update',
+        'destroy' => 'feedback.destroy',
+    ]);
+    Route::post('/feedback/status/{id}', [ProductFeedBackController::class, 'updateStatus']);
     /* Product Customzie */
     Route::get("/post/create/v2",[ProductController::class,"create_v2"])->name("products.create.varaint");
     Route::post("/admin/product/store/v2",[ProductController::class,"store_variant_product"])->name('store_variant_product');

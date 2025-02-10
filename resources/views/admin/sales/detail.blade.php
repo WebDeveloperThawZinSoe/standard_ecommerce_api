@@ -6,7 +6,7 @@
         <h3>Confirmed Sales Order Details for {{ \Carbon\Carbon::parse($date)->format('d - m - Y') }}</h3>
 
         <div class="m-t-25">
-            <table id="data-table" class="table">
+            <table id="data-table" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>

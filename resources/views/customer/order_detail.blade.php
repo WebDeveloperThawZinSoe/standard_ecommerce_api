@@ -82,7 +82,7 @@
 
             <h5 class="mb-4">Order Items:</h5>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-bordered">
                     <thead class="bg-primary text-white">
                         <tr>
                             <th style="color:white">Product Image</th>

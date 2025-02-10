@@ -164,6 +164,17 @@
     @endif
 
 
+    @if (session('order_error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Order is Failed',
+                text: '{{ session('order_error') }}',
+                confirmButtonText: 'OK',
+            });
+        </script>
+    @endif
+
     @if (session('error'))
     <script>
     Swal.fire({

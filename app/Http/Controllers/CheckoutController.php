@@ -42,9 +42,9 @@ class CheckoutController extends Controller
         $validatedData = $request->validate($rules);
 
         // Get User Currency
-        $currencyCode = session('currency', 'USD');
+        $currencyCode = session('currency', 'SGD');
         $currency = Currency::where('code', $currencyCode)->first();
-        $currencySymobolCode = $currency->code ?? 'USD';
+        $currencySymobolCode = $currency->code ?? 'SGD';
         $currencySymbol = $currency->symbol ?? '$';
         $exchangeRate = $currency->exchange_rate ?? 1;
         $result = $currencySymobolCode . $currencySymbol . $exchangeRate;
@@ -196,7 +196,12 @@ class CheckoutController extends Controller
                 return redirect('/')->with('success', 'Order placed successfully!');
             }
            
-        } catch (\Exception $e) {
+        }  catch (\Stripe\Exception\CardException $e) {
+            DB::rollback();
+            // dd($e->getMessage());
+            return redirect()->back()->with('order_error', 'Payment failed: ' . $e->getMessage());
+        } 
+            catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error', 'Order failed: ' . $e->getMessage());
         }

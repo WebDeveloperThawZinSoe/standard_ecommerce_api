@@ -161,6 +161,15 @@
                         </li>
 
                         <li class="nav-item dropdown open">
+                            <a href="/admin/product_feedback">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-star"></i>
+                                </span>
+                                <span class="title">Product Feedback</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown open">
                             <a href="/admin/supply">
                                 <span class="icon-holder">
                                     <i class="anticon anticon-box-plot"></i>
@@ -224,6 +233,8 @@
                                 <span class="title">Contact Message</span>
                             </a>
                         </li>
+
+
 
                         <li class="nav-item dropdown open">
                             <a href="/admin/currency">
@@ -327,6 +338,16 @@
                                 </li>
                             </ul>
                         </li>
+
+                        <li class="nav-item dropdown open">
+                            <a href="/admin/product/feedback">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-star"></i>
+                                </span>
+                                <span class="title">Product Feedback</span>
+                            </a>
+                        </li>
+
 
                         <li class="nav-item dropdown open">
                             <a href="/admin/supply">

@@ -18,7 +18,7 @@
     </div>
 </div>
 <div class="card">
-    <table style="padding-left:40px !important;" class="table">
+    <table style="padding-left:40px !important;" class="table table-bordered">
 
 
         <thead>
@@ -91,7 +91,7 @@
     <br>
     <h3>VIP Request History</h3>
     <br>
-    <table style="padding-left:40px !important;" class="table">
+    <table style="padding-left:40px !important;" class="table table-bordered">
 
 
         <thead>

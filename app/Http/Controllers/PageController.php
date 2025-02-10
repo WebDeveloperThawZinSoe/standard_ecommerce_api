@@ -315,7 +315,10 @@ class PageController extends Controller
         // dd($customerFeedbackSystemOrder);
 
         // Check if customer must purchase before review
-        if ($customerFeedbackSystemOrder == "on" && Auth::check()) {
+        if ($customerFeedbackSystemOrder == "on" ) {
+            if(!Auth::check()){
+                return redirect()->back()->with('error', 'You need to login first and need to buy this product first!');
+            }
             $orders = Order::where("user_id", Auth::id())->where("status", "2")->get();
 
             // $purchasedProductIds = $orders->flatMap(fn($order) => $order->orderDetails->pluck('product_variant_id'))->unique();
@@ -323,6 +326,7 @@ class PageController extends Controller
             if ($customerFeedbackSystemOrder == "on" && Auth::check()) {
                 $orders = Order::where("user_id", Auth::id())->where("status", "2")->get();
             
+                // $purchasedProductIds = $orders->flatMap(fn($order) => $order->orderDetails->pluck('product_variant_id'))->unique();
                 // Get the list of product IDs through product variants in the order details
                 $purchasedProductIds = $orders->flatMap(function ($order) {
                     return $order->orderDetails->map(function ($orderDetail) {
@@ -341,10 +345,7 @@ class PageController extends Controller
             if (!$purchasedProductIds->contains($request->product_id)) {
                 return redirect()->back()->with('error', 'You need to buy this product first!');
             }
-        }else{
-            return redirect()->back()->with('error', 'You need to login first and you need to buy this product first!');
         }
-
         // Initialize feedback instance
         $feedback = new ProductFeedBack([
             'product_id' => $request->product_id,

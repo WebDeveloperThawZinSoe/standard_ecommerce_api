@@ -84,7 +84,7 @@
             <!-- Supply Details -->
             <div class="mt-5">
                 <h3>Supply Log</h3>
-                <table class="table">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>#</th>

@@ -35,7 +35,8 @@ class GeneralSettingController extends Controller
             'customer_feedback_system',
             'customer_feedback_system_guest',
             'customer_feedback_system_order',
-            'customer_feedback_system_default_pending'
+            'customer_feedback_system_default_pending',
+            'customer_feedback_reply'
         ])->get()->keyBy('name');
 
         return view('admin.generalSetting.index', compact('generalSettings'));
@@ -67,7 +68,8 @@ class GeneralSettingController extends Controller
             'customer_feedback_system',
             'customer_feedback_system_guest',
             'customer_feedback_system_order',
-            'customer_feedback_system_default_pending'
+            'customer_feedback_system_default_pending',
+            'customer_feedback_reply'
         ];
 
         $field['customer_feedback_system'] = isset($request->customer_feedback_system) ? "on" : "off";

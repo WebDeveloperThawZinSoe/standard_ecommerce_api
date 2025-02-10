@@ -193,7 +193,7 @@ var isMobile = window.innerWidth <= 768;
       
         <div class="help-center">
             <h2></h2>
-        <table class="table">
+        <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>

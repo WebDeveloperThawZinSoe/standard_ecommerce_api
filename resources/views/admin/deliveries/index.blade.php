@@ -27,7 +27,7 @@
         </button>
 
         <div class="mt-3">
-            <table class="table">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>

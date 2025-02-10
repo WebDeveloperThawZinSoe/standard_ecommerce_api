@@ -110,19 +110,40 @@
 
             </div>
 
+
+
+
+
+        </div>
+
+        <hr>
+
+
+        <div class="row">
+            <div class="form-group col-md-12">
+            <h3>Customer Feedback</h3>
+            </div>
             <div class="form-group col-md-6">
+            
                 <label for="customer_feedback_system_toggle">Enable Customer Feedback </label>
                 <div class="form-check form-switch">
-                    <input  @if(isset($generalSettings['customer_feedback_system']) && $generalSettings['customer_feedback_system']->value == 'on') checked @endif name="customer_feedback_system" class="form-check-input" type="checkbox" id="customer_feedback_system_toggle">
+                    <input @if(isset($generalSettings['customer_feedback_system']) &&
+                        $generalSettings['customer_feedback_system']->value == 'on') checked @endif
+                    name="customer_feedback_system" class="form-check-input" type="checkbox"
+                    id="customer_feedback_system_toggle">
                     <label class="form-check-label" for="customer_feedback_system_toggle"
-                        id="customer_feedback_system_label"> {{ isset($generalSettings['customer_feedback_system']) && $generalSettings['customer_feedback_system']->value == 'on' ? 'Enabled' : 'Disabled' }}</label>
+                        id="customer_feedback_system_label">
+                        {{ isset($generalSettings['customer_feedback_system']) && $generalSettings['customer_feedback_system']->value == 'on' ? 'Enabled' : 'Disabled' }}</label>
                 </div>
             </div>
 
             <div class="form-group col-md-6">
                 <label for="customer_feedback_system_guest_toggle">Allow Guest Feedback</label>
                 <div class="form-check form-switch">
-                    <input name="customer_feedback_system_guest" class="form-check-input" type="checkbox" id="customer_feedback_system_guest_toggle" @if(isset($generalSettings['customer_feedback_system_guest']) && $generalSettings['customer_feedback_system_guest']->value == 'on') checked @endif >
+                    <input name="customer_feedback_system_guest" class="form-check-input" type="checkbox"
+                        id="customer_feedback_system_guest_toggle"
+                        @if(isset($generalSettings['customer_feedback_system_guest']) &&
+                        $generalSettings['customer_feedback_system_guest']->value == 'on') checked @endif >
                     <label class="form-check-label" for="customer_feedback_system_guest_toggle"
                         id="customer_feedback_system_guest_label">{{ isset($generalSettings['customer_feedback_system_guest']) && $generalSettings['customer_feedback_system_guest']->value == 'on' ? 'Enabled' : 'Disabled' }}</label>
                 </div>
@@ -131,7 +152,10 @@
             <div class="form-group col-md-6">
                 <label for="customer_feedback_system_order_toggle">Restrict Feedback to Customers</label>
                 <div class="form-check form-switch">
-                    <input name="customer_feedback_system_order" class="form-check-input" type="checkbox" id="customer_feedback_system_order_toggle" @if(isset($generalSettings['customer_feedback_system_order']) && $generalSettings['customer_feedback_system_order']->value == 'on') checked @endif >
+                    <input name="customer_feedback_system_order" class="form-check-input" type="checkbox"
+                        id="customer_feedback_system_order_toggle"
+                        @if(isset($generalSettings['customer_feedback_system_order']) &&
+                        $generalSettings['customer_feedback_system_order']->value == 'on') checked @endif >
                     <label class="form-check-label" for="customer_feedback_system_order_toggle"
                         id="customer_feedback_system_order_label">{{ isset($generalSettings['customer_feedback_system_order']) && $generalSettings['customer_feedback_system_order']->value == 'on' ? 'Enabled' : 'Disabled' }}</label>
                 </div>
@@ -140,9 +164,25 @@
             <div class="form-group col-md-6">
                 <label for="customer_feedback_system_default_pending_toggle">Allow To Show New Feedback</label>
                 <div class="form-check form-switch">
-                    <input name="customer_feedback_system_default_pending" class="form-check-input" type="checkbox" id="customer_feedback_system_default_pending_toggle" @if(isset($generalSettings['customer_feedback_system_default_pending']) && $generalSettings['customer_feedback_system_default_pending']->value == 'on') checked @endif >
+                    <input name="customer_feedback_system_default_pending" class="form-check-input" type="checkbox"
+                        id="customer_feedback_system_default_pending_toggle"
+                        @if(isset($generalSettings['customer_feedback_system_default_pending']) &&
+                        $generalSettings['customer_feedback_system_default_pending']->value == 'on') checked @endif >
                     <label class="form-check-label" for="customer_feedback_system_default_pending_toggle"
                         id="customer_feedback_system_default_pending_label">{{ isset($generalSettings['customer_feedback_system_default_pending']) && $generalSettings['customer_feedback_system_default_pending']->value == 'on' ? 'Enabled' : 'Disabled' }}</label>
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+                <label for="customer_feedback_reply_toggle">Allow To Show New Feedback</label>
+                <div class="form-check form-switch">
+                    <input name="customer_feedback_reply" class="form-check-input" type="checkbox"
+                        id="customer_feedback_reply_toggle"
+                        @if(isset($generalSettings['customer_feedback_reply']) &&
+                        $generalSettings['customer_feedback_reply']->value == 'on') checked @endif >
+                    <label class="form-check-label" for="customer_feedback_reply_toggle"
+                        id="customer_feedback_reply_label">{{ isset($generalSettings['customer_feedback_reply']) && $generalSettings['customer_feedback_reply']->value == 'on' ? 'Enabled' : 'Disabled' }}</label>
                 </div>
             </div>
 
@@ -163,6 +203,10 @@
                     {
                         id: "customer_feedback_system_default_pending_toggle",
                         labelId: "customer_feedback_system_default_pending_label"
+                    },
+                    {
+                        id: "customer_feedback_reply_toggle",
+                        labelId: "customer_feedback_reply_label"
                     }
                 ];
 
@@ -174,12 +218,9 @@
                 });
             });
             </script>
-
         </div>
 
-
-
-
+            <hr>
 
         <button type="submit" class="btn btn-primary">Update Settings</button>
 

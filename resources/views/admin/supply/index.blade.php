@@ -29,7 +29,7 @@
        
 
         <div class="m-t-25">
-            <table id="data-table" class="table">
+            <table id="data-table" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>

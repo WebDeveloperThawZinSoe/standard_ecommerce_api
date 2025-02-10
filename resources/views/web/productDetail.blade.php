@@ -401,9 +401,15 @@ document.querySelectorAll('.variant-option').forEach(button => {
                         @if($generalSettings['customer_feedback_system'])
 
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review-pane"
+                            <button class="nav-link position-relative" id="review-tab" data-bs-toggle="tab" data-bs-target="#review-pane"
                                 type="button" role="tab" aria-controls="review-pane"
-                                aria-selected="false">Review</button>
+                                aria-selected="false">Review   <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    @php 
+                                    $count = App\Models\ProductFeedBack::where('product_id', $detail_product->id)->where("status",1)->count();
+                                    @endphp
+                                    {{$count}}
+                                    <span class="visually-hidden">review counts</span>
+                                </span> </button>
                         </li>
 
                         @endif

@@ -34,7 +34,7 @@
 
 
         <div class="m-t-25">
-            <table id="data-table" class="table">
+            <table id="data-table" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -81,7 +81,7 @@
                                             <h6>Orders Total Amount:
                                                 {{ number_format(App\Models\Order::where("user_id", $order->user->id)->sum("total_price"), 1) }}
                                                 $</h6>
-                                            <table class="table">
+                                            <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>Order No</th>
@@ -224,7 +224,7 @@
                                             <hr>
                                             
                                             <h6>Order Items:</h6>
-                                            <table class="table">
+                                            <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>Product</th>

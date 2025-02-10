@@ -128,7 +128,7 @@
                 <div class="card-body">
                     <h1>Latest Order</h1>
                     <div class="m-t-25">
-                        <table id="data-table2" class="table">
+                        <table id="data-table2" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -170,7 +170,7 @@
                 <div class="card-body">
                     <h1>Latest Product</h1>
                     <div class="m-t-25">
-                        <table id="data-table2" class="table">
+                        <table id="data-table2" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>No</th>

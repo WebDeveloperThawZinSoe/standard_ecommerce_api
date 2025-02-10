@@ -31,7 +31,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="m-t-25">
-                    <table id="data-table" class="table">
+                    <table id="data-table" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -111,7 +111,7 @@
         <br>
         <div class="card">
             <div class="card-body">
-                <table style="padding-left:40px !important;" class="table">
+                <table style="padding-left:40px !important;" class="table table-bordered">
                     <thead>
                         <tr>
                             <th>No</th>
