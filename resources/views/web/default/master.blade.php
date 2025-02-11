@@ -138,11 +138,11 @@
 
 
         <!-- Header -->
-        @include("web.header")
+        @include("web.default.header")
         <!-- Header End -->
         @yield('body')
         <!-- Footer -->
-        @include("web.footer")
+        @include("web.default.footer")
         <!-- Footer End -->
 
         <button class="scroltop" type="button"><i class="fas fa-arrow-up"></i></button>

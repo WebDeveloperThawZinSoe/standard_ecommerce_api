@@ -1,4 +1,4 @@
-@extends('web.master')
+@extends('web.default.master')
 @section('body')
 @php
 $logo = App\Models\GeneralSetting::where('name', 'logo')->first();

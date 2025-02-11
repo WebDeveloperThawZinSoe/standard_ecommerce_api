@@ -1,4 +1,4 @@
-@extends('web.master')
+@extends('web.default.master')
 @section('body')
 
 <div class="page-content d-flex align-items-center justify-content-center" style="min-height: 100vh;">

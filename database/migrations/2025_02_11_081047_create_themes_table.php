@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('themes', function (Blueprint $table) {
             $table->id();
+            $table->string("name")->nullable();
+            $table->string("type")->nullable();
+            $table->string("active")->default(0);
             $table->timestamps();
         });
     }

@@ -1,4 +1,4 @@
-@extends('web.master')
+@extends('web.default.master')
 @section('body')
 <div class="page-content">
     <!--banner-->

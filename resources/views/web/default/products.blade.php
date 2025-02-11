@@ -1,15 +1,15 @@
-@extends('web.master')
+@extends('web.default.master')
 @section('body')
 <div class="page-content">
     <!--banner-->
     <div class="dz-bnr-inr style-1" style="background-image:url({{asset('web/images/background/bg-shape.jpg')}});">
         <div class="container">
             <div class="dz-bnr-inr-entry">
-                <h1>Pre Order Products</h1>
+                <h1>Our Products</h1>
                 <nav aria-label="breadcrumb" class="breadcrumb-row">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/"> Home</a></li>
-                        <li class="breadcrumb-item">Pre Order Products</li>
+                        <li class="breadcrumb-item">Products</li>
                     </ul>
                 </nav>
             </div>
@@ -34,32 +34,42 @@
                                     </div>
                                     <div class="dz-content">
                                         <h5 class="title">{{ $product->name }}</h5>
-
+                                        @php
+                                                        $currencyCode = session('currency', 'USD');
+                                                        $currency = App\Models\Currency::where('code', $currencyCode)->first();
+                                                        $currencySymbol = $currency->symbol ?? '$';
+                                                        $exchangeRate = $currency->exchange_rate ?? 1;
+                                                    @endphp
                                         <h6 class="price" style="color:black !important;">
-                                            @if($product->product_type == 1)
+                                        @if($product->product_type == 1)
                                                 @if($product->discount_type == 0)
-                                                    {{$product->price}} $
+                                                {{ $currencySymbol }}
+                                                {{ number_format($product->price * $exchangeRate, 2) }}
                                                 @elseif($product->discount_type == 1)
-                                                    @php
-                                                        $discount_price = $product->price - $product->discount_amount;
-                                                    @endphp
-                                                    <del>{{$product->price}} </del>
-                                                    {{$discount_price}} $
-                                                @elseif($product->discount_type == 2)
-                                                    @php
-                                                        $discount_price = $product->price - ( $product->price * ( $product->discount_amount / 100 ));
-                                                    @endphp
-                                                    <del>{{$product->price}} </del>
-                                                    {{$discount_price}} $
-                                                @endif
-                                            @elseif($product->product_type == 2)
                                                 @php
-                                                    $minPrice = $product->variants->min('price');
-                                                    $maxPrice = $product->variants->max('price');
-                                                    echo $minPrice . " ~ " . $maxPrice . " $" ;
+                                                $discountPrice = ($product->price - $product->discount_amount) *
+                                                $exchangeRate;
                                                 @endphp
-                                            @endif
-
+                                                <del>{{ $currencySymbol }}
+                                                    {{ number_format($product->price * $exchangeRate, 2) }}</del>
+                                                {{ $currencySymbol }} {{ number_format($discountPrice, 2) }}
+                                                @elseif($product->discount_type == 2)
+                                                @php
+                                                $discountPrice = ($product->price - ($product->price *
+                                                ($product->discount_amount / 100))) * $exchangeRate;
+                                                @endphp
+                                                <del>{{ $currencySymbol }}
+                                                    {{ number_format($product->price * $exchangeRate, 2) }}</del>
+                                                {{ $currencySymbol }} {{ number_format($discountPrice, 2) }}
+                                                @endif
+                                                @elseif($product->product_type == 2)
+                                                @php
+                                                $minPrice = $product->variants->min('price') * $exchangeRate;
+                                                $maxPrice = $product->variants->max('price') * $exchangeRate;
+                                                @endphp
+                                                {{ $currencySymbol }} {{ number_format($minPrice, 2) }} ~
+                                                {{ $currencySymbol }} {{ number_format($maxPrice, 2) }}
+                                                @endif
                                         </h6>
                                     </div>
                                     @if($product->discount_type != 0)
@@ -109,7 +119,7 @@
                                     @endif
 
                                     <!-- Pagination Elements -->
-                                    @foreach ($products->lin$()->elements[0] as $page => $url)
+                                    @foreach ($products->links()->elements[0] as $page => $url)
                                     @if ($page == $products->currentPage())
                                     <li class="page-item active" ><span class="page-link" style="background-color:black !important;color:white !important;">{{ $page }}</span></li>
                                     @else

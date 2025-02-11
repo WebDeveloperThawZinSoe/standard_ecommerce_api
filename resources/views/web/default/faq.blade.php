@@ -1,4 +1,4 @@
-@extends('web.master')
+@extends('web.default.master')
 @section('body')
 <div class="page-content">
     <section class="content-inner main-faq-content" style="background-image:url({{asset('web/images/background/bg-shape.jpg')}});">
