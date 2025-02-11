@@ -94,6 +94,26 @@
             </div>
             <!-- Header END -->
 
+                <!-- POP Up Model -->
+                <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Notification Alert</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                        <i class="anticon anticon-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       
+                    </div>
+                   
+                    </div>
+                </div>
+                </div>
+
+                <!-- Trigger Modal on Page Load -->
+                
             <!-- Pusher -->
             <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
             <script>
@@ -120,7 +140,11 @@
                     console.log("Received Order Data:", data);
                     if (data && data.message && data.type) {
                         addNotification(data.message, data.type);
+                        $('#myModal').modal('show');  // Show the modal
+                        updateModalContent(data.message);
                     }
+
+                    
                 });
 
                 // Add a notification to the UI
@@ -150,14 +174,14 @@
                     }
 
                     notificationItem.innerHTML = `
-                <a href="${link}" style="text-decoration: none; color: inherit;">
-                    <i class="${iconClass}"></i>
-                    <div class="notification-text">
-                        <p>${message}</p>
-                        <small>${new Date().toLocaleTimeString()}</small>
-                    </div>
-                </a>
-            `;
+                        <a href="${link}" style="text-decoration: none; color: inherit;">
+                            <i class="${iconClass}"></i>
+                            <div class="notification-text">
+                                <p>${message}</p>
+                                <small>${new Date().toLocaleTimeString()}</small>
+                            </div>
+                        </a>
+                    `;
 
                     notificationMenu.appendChild(notificationItem);
                 }
@@ -170,11 +194,11 @@
 
                     const notificationMenu = document.getElementById('notification-menu');
                     notificationMenu.innerHTML = `
-                <div class="notification-header">
-                    <span>Notifications</span>
-                    <a href="#" class="clear-all" id="clear-notifications">Clear All</a>
-                </div>
-            `;
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                            <a href="#" class="clear-all" id="clear-notifications">Clear All</a>
+                        </div>
+                    `;
 
                     notificationCount = 0;
                     document.getElementById('notification-count').textContent = notificationCount;
@@ -182,79 +206,85 @@
                     // Reattach the event listener for "Clear All"
                     document.getElementById('clear-notifications').addEventListener('click', clearNotifications);
                 }
+
+                    // Update the modal content dynamically
+                    function updateModalContent(message) {
+                        const modalBody = document.querySelector('#myModal .modal-body');
+                        modalBody.innerHTML = `<h2>${message}</h2>`;
+                    }
             </script>
 
 
 
             <style>
-            .notification-dropdown {
-                position: relative;
-            }
+                    .notification-dropdown {
+                        position: relative;
+                    }
 
-            .notification-icon {
-                position: relative;
-                cursor: pointer;
-            }
+                    .notification-icon {
+                        position: relative;
+                        cursor: pointer;
+                    }
 
-            .badge_noti {
-                position: absolute;
-                top: 0;
-                right: -5px;
-                background: red;
-                color: white;
-                border-radius: 50%;
-                padding: 3px 6px;
-                font-size: 12px;
-            }
+                    .badge_noti {
+                        position: absolute;
+                        top: 0;
+                        right: -5px;
+                        background: red;
+                        color: white;
+                        border-radius: 50%;
+                        padding: 3px 6px;
+                        font-size: 12px;
+                    }
 
-            .notification-menu {
-                display: none;
-                position: absolute;
-                top: 30px;
-                right: 0;
-                background: white;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                width: 350px;
-                border-radius: 8px;
-                z-index: 100;
-            }
+                    .notification-menu {
+                        display: none;
+                        position: absolute;
+                        top: 30px;
+                        right: 0;
+                        background: white;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        width: 350px;
+                        border-radius: 8px;
+                        z-index: 100;
+                    }
 
-            .notification-dropdown:hover .notification-menu {
-                display: block;
-            }
+                    .notification-dropdown:hover .notification-menu {
+                        display: block;
+                    }
 
-            .notification-header {
-                padding: 10px;
-                font-weight: bold;
-                border-bottom: 1px solid #ddd;
-                display: flex;
-                justify-content: space-between;
-            }
+                    .notification-header {
+                        padding: 10px;
+                        font-weight: bold;
+                        border-bottom: 1px solid #ddd;
+                        display: flex;
+                        justify-content: space-between;
+                    }
 
-            .notification-item {
-                display: flex;
-                align-items: center;
-                padding: 10px;
-                border-bottom: 1px solid #f1f1f1;
-            }
+                    .notification-item {
+                        display: flex;
+                        align-items: center;
+                        padding: 10px;
+                        border-bottom: 1px solid #f1f1f1;
+                    }
 
-            .notification-item:last-child {
-                border-bottom: none;
-            }
+                    .notification-item:last-child {
+                        border-bottom: none;
+                    }
 
-            .notification-text {
-                margin-left: 10px;
-            }
+                    .notification-text {
+                        margin-left: 10px;
+                    }
 
-            .notification-text p {
-                margin: 0;
-            }
+                    .notification-text p {
+                        margin: 0;
+                    }
 
-            .clear-all {
-                font-size: 12px;
-                color: #007bff;
-                cursor: pointer;
-            }
+                    .clear-all {
+                        font-size: 12px;
+                        color: #007bff;
+                        cursor: pointer;
+                    }
             </style>
 
 

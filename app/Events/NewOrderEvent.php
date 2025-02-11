@@ -33,7 +33,10 @@ class NewOrderEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'message' => 'New Order: ' . $this->order->order_number,
+            'message' => '<p> Conguration You have New Order: ' . $this->order->order_number . "</p><br> 
+                <p> Total Price is : " . $this->order->total_price  . "</p>".
+                " <p>View Detail In <a href=/admin/orders/".$this->order->id."> Here </p> <a> " .
+                "<hr>",
             'type' => 'order'
         ];
     }
