@@ -214,5 +214,5 @@ Route::get('auth/{provider}', [SocialAuthController::class, 'redirectToProvider'
 Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])->name('auth.callback');
 Route::get('/change-currency/{currencyCode}', [CurrencyChangerController::class, 'changeCurrency'])->name('change.currency');
 Route::post("/submit/review",[PageController::class,"submitReview"])->name("submit.review");
-Route::get("/pusher_test",[PageController::class,"pusherTest"]);
-Route::get("/puster_test_post",[PageController::class,"pushterTestPost"]);
+// Route::get("/pusher_test",[PageController::class,"pusherTest"]);
+// Route::get("/puster_test_post",[PageController::class,"pushterTestPost"]);

@@ -31,7 +31,8 @@ class NewUserRegisterEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'message' => 'New user registered: ' . $this->user->name
+            'message' => 'New user registered: ' . $this->user->name,
+            "type" => "user"
         ];
     }
 }

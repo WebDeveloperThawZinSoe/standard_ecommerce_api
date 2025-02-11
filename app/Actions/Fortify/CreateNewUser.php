@@ -45,7 +45,7 @@ class CreateNewUser implements CreatesNewUsers
             'phone' => $input["phone"]
         ]);
 
-        // NewUserRegisterEvent::dispatch($user);
+        NewUserRegisterEvent::dispatch($user);
 
 
         // Assign a default role to the user

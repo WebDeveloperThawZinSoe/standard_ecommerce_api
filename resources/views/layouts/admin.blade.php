@@ -71,12 +71,192 @@
                                 <i class="anticon"></i>
                             </a>
                         </li>
+                    </ul>
 
+                    <ul class="nav-right">
+                        <!-- Notification Icon -->
+                        <li class="notification-dropdown">
+                            <a href="javascript:void(0);" class="notification-icon">
+                                <i class="anticon anticon-bell" style="font-size: 24px;"></i>
+                                <span class="badge_noti" id="notification-count">0</span>
+                            </a>
+                            <!-- Notification Dropdown Content -->
+                            <div class="notification-menu" id="notification-menu">
+                                <div class="notification-header">
+                                    <span>Notifications</span>
+                                    <a href="#" class="clear-all" id="clear-notifications">Clear All</a>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
 
                 </div>
             </div>
             <!-- Header END -->
+
+            <!-- Pusher -->
+            <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+            <script>
+                Pusher.logToConsole = true;
+
+                var pusher = new Pusher('ca0b7ef0d3a4edcc8853', {
+                    cluster: 'ap1'
+                });
+
+                var notificationCount = 0;
+
+                // Subscribe to user registration notifications
+                var userRegistrationChannel = pusher.subscribe('user-registrations');
+                userRegistrationChannel.bind('new-user.registered', function(data) {
+                    console.log("Received Data:", data);
+                    if (data && data.message && data.type) {
+                        addNotification(data.message, data.type);
+                    }
+                });
+
+                // Subscribe to order notifications
+                var orderChannel = pusher.subscribe('new-order');
+                orderChannel.bind('new-order.created', function(data) {
+                    console.log("Received Order Data:", data);
+                    if (data && data.message && data.type) {
+                        addNotification(data.message, data.type);
+                    }
+                });
+
+                // Add a notification to the UI
+                function addNotification(message, type) {
+                    notificationCount++;
+                    document.getElementById('notification-count').textContent = notificationCount;
+
+                    const notificationMenu = document.getElementById('notification-menu');
+
+                    const notificationItem = document.createElement('div');
+                    notificationItem.classList.add('notification-item');
+
+                    let iconClass, link;
+
+                    switch (type) {
+                        case 'user':
+                            iconClass = 'anticon anticon-user';
+                            link = '/admin/customers';
+                            break;
+                        case 'order':
+                            iconClass = 'anticon anticon-shopping-cart';
+                            link = '/admin/orders';
+                            break;
+                        default:
+                            iconClass = 'anticon anticon-info-circle';
+                            link = '#';
+                    }
+
+                    notificationItem.innerHTML = `
+                <a href="${link}" style="text-decoration: none; color: inherit;">
+                    <i class="${iconClass}"></i>
+                    <div class="notification-text">
+                        <p>${message}</p>
+                        <small>${new Date().toLocaleTimeString()}</small>
+                    </div>
+                </a>
+            `;
+
+                    notificationMenu.appendChild(notificationItem);
+                }
+
+                // Clear all notifications
+                document.getElementById('clear-notifications').addEventListener('click', clearNotifications);
+
+                function clearNotifications(event) {
+                    event.preventDefault();
+
+                    const notificationMenu = document.getElementById('notification-menu');
+                    notificationMenu.innerHTML = `
+                <div class="notification-header">
+                    <span>Notifications</span>
+                    <a href="#" class="clear-all" id="clear-notifications">Clear All</a>
+                </div>
+            `;
+
+                    notificationCount = 0;
+                    document.getElementById('notification-count').textContent = notificationCount;
+
+                    // Reattach the event listener for "Clear All"
+                    document.getElementById('clear-notifications').addEventListener('click', clearNotifications);
+                }
+            </script>
+
+
+
+            <style>
+            .notification-dropdown {
+                position: relative;
+            }
+
+            .notification-icon {
+                position: relative;
+                cursor: pointer;
+            }
+
+            .badge_noti {
+                position: absolute;
+                top: 0;
+                right: -5px;
+                background: red;
+                color: white;
+                border-radius: 50%;
+                padding: 3px 6px;
+                font-size: 12px;
+            }
+
+            .notification-menu {
+                display: none;
+                position: absolute;
+                top: 30px;
+                right: 0;
+                background: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 350px;
+                border-radius: 8px;
+                z-index: 100;
+            }
+
+            .notification-dropdown:hover .notification-menu {
+                display: block;
+            }
+
+            .notification-header {
+                padding: 10px;
+                font-weight: bold;
+                border-bottom: 1px solid #ddd;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .notification-item {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                border-bottom: 1px solid #f1f1f1;
+            }
+
+            .notification-item:last-child {
+                border-bottom: none;
+            }
+
+            .notification-text {
+                margin-left: 10px;
+            }
+
+            .notification-text p {
+                margin: 0;
+            }
+
+            .clear-all {
+                font-size: 12px;
+                color: #007bff;
+                cursor: pointer;
+            }
+            </style>
+
 
             <!-- Side Nav START -->
             <div class="side-nav">
@@ -254,14 +434,7 @@
                             </a>
                         </li>
 
-                        <!-- <li class="nav-item dropdown open">
-        <a href="/admin/payment_method">
-            <span class="icon-holder">
-                <i class="anticon anticon-credit-card"></i>
-            </span>
-            <span class="title">Payment Method</span>
-        </a>
-    </li> -->
+
 
                         <li class="nav-item dropdown open">
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -391,6 +564,7 @@
 
                 <!-- Content Wrapper START -->
                 <div class="main-content">
+
                     @yield('body')
                 </div>
                 <!-- Content Wrapper END -->
@@ -469,6 +643,9 @@
         </div>
     </div>
 
+
+
+
     <!-- Core Vendors JS -->
     <script src="{{asset('admin/js/vendors.min.js')}}"></script>
 
@@ -482,23 +659,7 @@
     <script src="{{asset('admin/js/app.min.js')}}"></script>
     <!-- SweetAlert2 for error display -->
     @if ($errors->any())
-    <script>
-    import Echo from 'laravel-echo';
-    window.Pusher = require('pusher-js');
 
-    window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: process.env.MIX_PUSHER_APP_KEY,
-        cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-        forceTLS: true
-    });
-
-    window.Echo.channel('orders')
-        .listen('.order.placed', (event) => {
-            console.log('Order Placed:', event.order);
-            alert(`New order placed: ${event.order.order_number}`);
-        });
-    </script>
     <script>
     Swal.fire({
         icon: 'error',

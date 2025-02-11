@@ -17,6 +17,7 @@ use Stripe\Exception\ApiErrorException;
 use App\Models\Currency;
 use App\Models\Delivery;
 use App\Events\OrderPlaced;
+use App\Events\NewOrderEvent;
 
 class CheckoutController extends Controller
 {
@@ -189,7 +190,8 @@ class CheckoutController extends Controller
 
             // Clear cart items
             Card::where($user_id ? "user_id" : "session_id", $user_id ?? $sessionId)->delete();
-            OrderPlaced::dispatch($order);
+            // OrderPlaced::dispatch($order);
+            NewOrderEvent::dispatch($order);
             DB::commit();
             /* Order Notification Pusher */
           
