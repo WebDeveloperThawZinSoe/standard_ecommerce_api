@@ -445,6 +445,16 @@
                         </li>
 
 
+                        <li class="nav-item dropdown open">
+                            <a href="/admin/livechat">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-customer-service"></i>
+                                    <!-- Changed to 'customer-service' for live chat -->
+                                </span>
+                                <span class="title">Live Chat</span>
+                            </a>
+                        </li>
+
 
                         <li class="nav-item dropdown open">
                             <a href="/admin/currency">

@@ -537,7 +537,7 @@
     </div>
 
     <!-- Icon Box Start -->
-    @include("web.product_footer")
+    @include("web.default.product_footer")
     <!-- Icon Box End -->
 
     <script>

@@ -119,7 +119,7 @@ class CartController extends Controller
         // }
     
         // Return the view with the card items
-        return view('web.cart');
+        return view('web.default.cart');
     }
     
 

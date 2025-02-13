@@ -40,6 +40,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserOrderController;
 use App\Http\Controllers\VIPRequestController;
 use App\Http\Controllers\CurrencyChangerController;
+use App\Http\Controllers\LiveChatController;
 use App\Http\Controllers\Auth\SocialAuthController;
 
 
@@ -112,7 +113,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put("/delivery/update/{id}", [AdminDeliveryController::class, "update"])->name("delivery.update");
     Route::delete("/delivery/destroy/{id}", [AdminDeliveryController::class, "destroy"])->name("delivery.destroy");
     
-
+    //chat
+    // Route::get("/livechat",[LiveChatController::class,"livechatAdmin"]);
+    Route::get('/livechat', [LiveChatController::class, 'livechatAdmin'])->name('messages');
+    Route::get('/livechat/{user_id}', [LiveChatController::class, 'livechatDetail'])->name('messages.detail');
+    Route::post('/send-message', [LiveChatController::class,"sendMessage"]);
 });
 
 Route::middleware(['auth', 'manager'])->prefix('admin')->name('admin.')->group(function () {
@@ -167,22 +172,26 @@ Route::middleware(['auth', 'customer'])->prefix('/')->name('customer.')->group(f
     //vip
     Route::get("/auth/vip",[UserProfileController::class, 'vip']);
     Route::post("/auth/vip/request",[VIPRequestController::class,"store"])->name("vip.request");
+    //chat
+    Route::get("/customer/livechat",[LiveChatController::class,"livechat"]);
+    Route::post('/send-message', [LiveChatController::class,"sendMessage"]);
+
 });
 
 
 
 // Routes without auth middleware for guest users to interact with the cart
 Route::middleware('web')->group(function () {
-Route::post('/cart/add', [CartController::class, 'addToCard'])->name('cart.add');
-Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
-Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
-Route::post("/card/update/direct/{id}",[CartController::class, 'update_direct'])->name("card.update.direct");
-Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/cart/clearAll', [CartController::class, 'clearAll'])->name('cart.clearAll');
-Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
-Route::post("/cart/cuppon/apply",[CartController::class,"cuponApply"])->name("cart.apply_coupon");
-Route::post("/cart/coupon/remove", [CartController::class, "couponRemove"])->name("cart.coupon.remove");
+    Route::post('/cart/add', [CartController::class, 'addToCard'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+    Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::post("/card/update/direct/{id}",[CartController::class, 'update_direct'])->name("card.update.direct");
+    Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/clearAll', [CartController::class, 'clearAll'])->name('cart.clearAll');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post("/cart/cuppon/apply",[CartController::class,"cuponApply"])->name("cart.apply_coupon");
+    Route::post("/cart/coupon/remove", [CartController::class, "couponRemove"])->name("cart.coupon.remove");
 });
 
 

@@ -27,73 +27,89 @@
     <!-- PAGE TITLE HERE -->
     <title> {{ env('APP_NAME') }}</title>
     <style>
-    /* Product Card Styling */
-    .shop-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 330px;
-        background: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        overflow: hidden;
-        padding: 15px;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
+        /* Live Chat */
+        .chat-button {
+            position: fixed;
+            margin-bottom:100px !important;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Product Card Styling */
+        .shop-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 330px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
 
-    .shop-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+        .shop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Media Section */
-    .shop-card .dz-media {
-        flex: 0 0 auto;
-        text-align: center;
-        height: 200px;
-        overflow: hidden;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-    }
+        /* Media Section */
+        .shop-card .dz-media {
+            flex: 0 0 auto;
+            text-align: center;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
 
-    .shop-card .dz-media img {
-        max-height: 100%;
-        max-width: 100%;
-        object-fit: cover;
-        transition: all 0.3s ease-in-out;
-    }
+        .shop-card .dz-media img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease-in-out;
+        }
 
-    .shop-card:hover .dz-media img {
-        transform: scale(1.05);
-    }
+        .shop-card:hover .dz-media img {
+            transform: scale(1.05);
+        }
 
-    /* Content Section */
-    .shop-card .dz-content {
-        flex: 1 1 auto;
-        text-align: center;
-        margin-top: 10px;
-    }
+        /* Content Section */
+        .shop-card .dz-content {
+            flex: 1 1 auto;
+            text-align: center;
+            margin-top: 10px;
+        }
 
-    .shop-card .dz-content .title {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 5px;
-        color: #333;
-    }
+        .shop-card .dz-content .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
 
-    .shop-card .dz-content .price {
-        font-size: 16px;
-        color: #ff4d4f;
-        font-weight: bold;
-        margin-top: 5px;
-    }
+        .shop-card .dz-content .price {
+            font-size: 16px;
+            color: #ff4d4f;
+            font-weight: bold;
+            margin-top: 5px;
+        }
 
 
 
-    .product-tag.badge-info {
-        background-color: #17a2b8;
-    }
+        .product-tag.badge-info {
+            background-color: #17a2b8;
+        }
     </style>
     <!-- MOBILE SPECIFIC -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -151,6 +167,33 @@
 
 
     </div>
+    @auth 
+    <a class="chat-button" href="/customer/livechat">
+            <i class="fas fa-comments fa-lg"></i>
+    </a>
+    @endauth
+    @guest
+    <button class="chat-button" data-bs-toggle="modal" data-bs-target="#chatModal">
+        <i class="fas fa-comments fa-lg"></i>
+    </button>
+    
+    <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chatModalLabel">Live Chat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Live Chat is need to Account Login , Please Login Account First <a href="/login">Login</a> </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endguest
     <!-- Sweet Alert 2 -->
     @if (session('success'))
     <script>

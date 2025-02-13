@@ -19,7 +19,7 @@
     <section class="content-inner-1 pt-3 z-index-unset">
         <div class="container">
             <div class="row">
-                @include("web.product_filter")
+                @include("web.default.product_filter")
                 <div class="col-xl-9 col-lg-12">
                     <!-- Display Search Results Text -->
                     @if(isset($query))
@@ -125,7 +125,7 @@
     </section>
 
     <!-- Icon Box Start -->
-    @include("web.product_footer")
+    @include("web.default.product_footer")
     <!-- Icon Box End -->
 </div>
 @endsection

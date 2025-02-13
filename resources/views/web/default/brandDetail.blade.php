@@ -24,7 +24,7 @@
         <div class="container">
 
             <div class="row">
-                @include("web.product_filter")
+                @include("web.default.product_filter")
                 <div class="col-xl-9 col-lg-12">
                     <div class="row">
                         <div class="row gx-xl-4 g-3 mb-xl-0 mb-md-0 mb-3">
@@ -144,7 +144,7 @@
     </section>
 
     <!-- Icon Box Start -->
-    @include("web.product_footer")
+    @include("web.default.product_footer")
     <!-- Icon Box End -->
 </div>
 @endsection

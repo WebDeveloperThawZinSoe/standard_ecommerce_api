@@ -325,6 +325,6 @@
     </section>
 
     <!-- Footer -->
-    @include("web.product_footer")
+    @include("web.default.product_footer")
 </div>
 @endsection

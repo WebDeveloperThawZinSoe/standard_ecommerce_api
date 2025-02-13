@@ -592,7 +592,7 @@ document.querySelectorAll('.variant-option').forEach(button => {
     </section>
 
     <!-- Icon Box Start -->
-    @include("web.product_footer")
+    @include("web.default.product_footer")
     <!-- Icon Box End -->
 </div>
 @endsection

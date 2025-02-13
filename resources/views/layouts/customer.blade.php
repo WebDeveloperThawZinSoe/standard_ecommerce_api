@@ -23,21 +23,25 @@
     <div class="app">
         <div class="layout">
 
-        @php 
-        $logo = App\Models\GeneralSetting::where("name","logo")->first();
-@endphp
+            @php
+            $logo = App\Models\GeneralSetting::where("name","logo")->first();
+            @endphp
             <!-- Header START -->
             <div class="header">
                 <div class="logo logo-dark" style="margin-top:15px !important">
                     <a href="/" target="_blank">
-                    <img src="{{ asset('images/general_settings/' . $logo->value) }}" style="width:50px;height:50px" alt="Logo">
-                    <img class="logo-fold" src="{{ asset('images/general_settings/' . $logo->value) }}" style="width:50px;height:50px" alt="Logo">
+                        <img src="{{ asset('images/general_settings/' . $logo->value) }}" style="width:50px;height:50px"
+                            alt="Logo">
+                        <img class="logo-fold" src="{{ asset('images/general_settings/' . $logo->value) }}"
+                            style="width:50px;height:50px" alt="Logo">
                     </a>
                 </div>
                 <div class="logo logo-white" style="margin-top:15px !important">
                     <a href="/" target="_blank">
-                    <img src="{{ asset('images/general_settings/' . $logo->value) }}" style="width:50px;height:50px" alt="Logo">
-                    <img class="logo-fold" src="{{ asset('images/general_settings/' . $logo->value) }}" style="width:50px;height:50px"  alt="Logo">
+                        <img src="{{ asset('images/general_settings/' . $logo->value) }}" style="width:50px;height:50px"
+                            alt="Logo">
+                        <img class="logo-fold" src="{{ asset('images/general_settings/' . $logo->value) }}"
+                            style="width:50px;height:50px" alt="Logo">
                     </a>
                 </div>
                 <div class="nav-wrap">
@@ -102,64 +106,94 @@
             <!-- Side Nav START -->
             <div class="side-nav">
                 <div class="side-nav-inner">
-                   <ul class="side-nav-menu scrollable">
-    <li class="nav-item dropdown open">
-        <a href="{{route('customer.dashboard')}}">
-            <span class="icon-holder">
-                <i class="anticon anticon-dashboard"></i>
-            </span>
-            <span class="title">Dashboard</span>
-        </a>
-    </li>
+                    <ul class="side-nav-menu scrollable">
+                        <li class="nav-item dropdown open">
+                            <a href="{{route('customer.dashboard')}}">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                                <span class="title">Dashboard</span>
+                            </a>
+                        </li>
 
-    <li class="nav-item dropdown open">
-        <a href="/">
-            <span class="icon-holder">
-                <i class="anticon anticon-shopping-cart"></i>
-            </span>
-            <span class="title">Shopping</span>
-        </a>
-    </li>
+                        <li class="nav-item dropdown open">
+                            <a href="/">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-shopping-cart"></i>
+                                </span>
+                                <span class="title">Shopping</span>
+                            </a>
+                        </li>
 
-    <li class="nav-item dropdown open">
-        <a href="/auth/order">
-            <span class="icon-holder">
-                <i class="anticon anticon-profile"></i>
-            </span>
-            <span class="title">Order</span>
-        </a>
-    </li>
+                        <li class="nav-item dropdown open">
+                            <a href="/auth/order">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-profile"></i>
+                                </span>
+                                <span class="title">Order</span>
+                            </a>
+                        </li>
 
-    <li class="nav-item dropdown open">
-        <a href="/cart">
-            <span class="icon-holder">
-                <i class="anticon anticon-shopping"></i>
-            </span>
-            <span class="title">Cart</span>
-        </a>
-    </li>
+                        <li class="nav-item dropdown open">
+                            <a href="/cart">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-shopping"></i>
+                                </span>
+                                <span class="title">Cart</span>
+                            </a>
+                        </li>
 
-    <li class="nav-item dropdown open">
-        <a href="/auth/general_settings">
-            <span class="icon-holder">
-                <i class="anticon anticon-setting"></i>
-            </span>
-            <span class="title">Setting</span>
-        </a>
-    </li>
+                        <li class="nav-item dropdown open">
+                            <a href="#">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-star"></i> <!-- Changed to 'star' for reviews -->
+                                </span>
+                                <span class="title">My Review</span>
+                            </a>
+                        </li>
 
-    <li class="nav-item dropdown open">
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <span class="icon-holder">
-                <i class="anticon anticon-logout"></i>
-            </span>
-            <span class="title">Logout</span>
-        </a>
-    </li>
-</ul>
+                        <li class="nav-item dropdown open">
+                            <a href="#">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-message"></i> <!-- Changed to 'message' for comments -->
+                                </span>
+                                <span class="title">Comment</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown open">
+                            <a href="/customer/livechat">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-customer-service"></i>
+                                    <!-- Changed to 'customer-service' for live chat -->
+                                </span>
+                                <span class="title">Live Chat</span>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item dropdown open">
+                            <a href="/auth/general_settings">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-setting"></i>
+                                </span>
+                                <span class="title">Setting</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown open">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-logout"></i>
+                                </span>
+                                <span class="title">Logout</span>
+                            </a>
+                        </li>
+                    </ul>
 
                 </div>
             </div>
