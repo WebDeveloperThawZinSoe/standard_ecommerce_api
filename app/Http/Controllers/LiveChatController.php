@@ -34,6 +34,7 @@ class LiveChatController extends Controller
 
     public function livechatAdmin()
     {
+        $all_users = User::where("role","2")->get();
         $adminId = auth()->id(); // Get logged-in admin ID
 
         // Fetch unique users who have chatted with the admin
@@ -46,9 +47,33 @@ class LiveChatController extends Controller
                 ->distinct()
                 ->get();
 
-        return view('admin.chat.index', compact('users'));
+        return view('admin.chat.index', compact('users','all_users'));
     }
 
+    public function livechatDetail2(Request $request){
+        $user_id = $request->users;
+        Message::where('sender_id', $user_id)->update([
+            "is_read" => 1
+        ]);
+
+        // dd($user_id);
+
+        $messages = Message::where(function ($query) use ($user_id) {
+                $query->where('sender_id', Auth::id())->where('receiver_id', $user_id);
+            })
+            ->orWhere(function ($query) use ($user_id) {
+                $query->where('sender_id', $user_id)->where('receiver_id', Auth::id());
+            })
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $user = User::findOrFail($user_id);
+
+        // Debug log
+        //Log::info('Chat detail page loaded', ['user_id' => $user_id]);
+
+        return view('admin.chat.detail', compact('messages', 'user'));
+    }
     
     public function livechatDetail($user_id)
     {

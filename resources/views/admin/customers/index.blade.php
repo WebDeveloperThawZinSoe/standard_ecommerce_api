@@ -5,7 +5,7 @@
     <div class="card-body">
         @if (session('status'))
         <div class="alert alert-primary alert-dismissible fade show">
-            <strong>Success!</strong>  {{ session('status') }}
+            <strong>Success!</strong> {{ session('status') }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -13,20 +13,21 @@
         @endif
 
         @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show">
-                <strong>Error!</strong> Please check the form below for errors.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div class="alert alert-danger alert-dismissible fade show">
+            <strong>Error!</strong> Please check the form below for errors.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
         <button class="btn btn-primary btn-tone m-r-5" data-toggle="modal" data-target="#createModal"><i
                 class="anticon anticon-plus"></i> Create</button>
+
         <div class="m-t-25">
             <table id="data-table" class="table table-bordered">
                 <thead>
@@ -64,7 +65,8 @@
                             {{ $user->created_at->format('F j, Y, g:i a') }}
                         </td>
                         <td>
-                            <a href="{{ url('/admin/customers/' . $user->id . '/edit') }}" style="display:inline-block !important;" class="btn btn-warning">
+                            <a href="{{ url('/admin/customers/' . $user->id . '/edit') }}"
+                                style="display:inline-block !important;" class="btn btn-warning">
                                 <i class="anticon anticon-edit"></i>
                             </a>
                             <form style="display:inline-block !important;"
@@ -78,7 +80,10 @@
                                 </button>
                             </form>
 
-
+                            <a href="{{ url('/admin/livechat/' . $user->id ) }}"
+                                style="display:inline-block !important;" class="btn btn-info">
+                                <i class="anticon anticon-customer-service"></i>
+                            </a>
                         </td>
 
                     </tr>

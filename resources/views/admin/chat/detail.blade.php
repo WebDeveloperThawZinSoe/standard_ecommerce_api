@@ -2,6 +2,8 @@
 
 @section('body')
 <div class="container mt-4">
+    <a href="/admin/livechat" class="btn btn-primary">Back</a>
+    <br> <br>
     <div class="card shadow-lg rounded-lg">
         <div class="card-header bg-chatColor text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0" style="color:white !important;">Live Chat with {{$user->name}} </h5>
