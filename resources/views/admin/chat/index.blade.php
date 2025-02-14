@@ -6,38 +6,40 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>No</th>
                 <th>User</th>
                 <th>Last Message</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($users as $user)
+            @foreach($users as $key=>$user)
                 @php
-                    $chatUser = auth()->id() == $user->sender_id ? $user->receiver : $user->sender;
+                    $adminId = auth()->id();
+                    $lastMessage = \App\Models\Message::where(function ($query) use ($adminId, $user) {
+                        $query->where(function ($q) use ($adminId, $user) {
+                            $q->where('sender_id', $adminId)
+                              ->where('receiver_id', $user->id);
+                        })
+                        ->orWhere(function ($q) use ($adminId, $user) {
+                            $q->where('sender_id', $user->id)
+                              ->where('receiver_id', $adminId);
+                        });
+                    })->latest()->first();
                 @endphp
+
                 <tr>
-                    <td>{{ $chatUser->name ?? 'Unknown User' }}</td>
+                    <td>{{ ++$key }}</td>
+                    <td>{{ $user->name }}</td>
                     <td>
-                        {{ \App\Models\Message::where('sender_id', $chatUser->id)
-                            ->orWhere('receiver_id', $chatUser->id)
-                            ->latest()
-                            ->first()
-                            ->message ?? 'No messages' }}
-                        @php 
-                        $is_read = App\Models\Message::where('sender_id', $chatUser->id)
-                            ->orWhere('receiver_id', $chatUser->id)
-                            ->latest()
-                            ->first()
-                            ->is_read;
-                        @endphp
-                        @if($is_read == 0)
-                        <span class="badge bg-danger"><span style="color:white">New Message</span></span>
-                        
+                        {{ $lastMessage->message ?? 'No messages' }}
+
+                        @if ($lastMessage && $lastMessage->is_read == 0 && $lastMessage->receiver_id == $adminId)
+                            <span class="badge bg-danger"><span style="color:white">New Message</span></span>
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('admin.messages.detail', $chatUser->id) }}" class="btn btn-info">View Chat</a>
+                        <a href="{{ route('admin.messages.detail', $user->id) }}" class="btn btn-info">View Chat</a>
                     </td>
                 </tr>
             @endforeach

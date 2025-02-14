@@ -118,6 +118,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/livechat', [LiveChatController::class, 'livechatAdmin'])->name('messages');
     Route::get('/livechat/{user_id}', [LiveChatController::class, 'livechatDetail'])->name('messages.detail');
     Route::post('/send-message', [LiveChatController::class,"sendMessage"]);
+    Route::post("/clear-chat",[LiveChatController::class,"clearChat"])->name("messages.clear");
 });
 
 Route::middleware(['auth', 'manager'])->prefix('admin')->name('admin.')->group(function () {

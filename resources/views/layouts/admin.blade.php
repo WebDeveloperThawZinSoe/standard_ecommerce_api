@@ -32,6 +32,12 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
 
+    <style>
+        .bg-chatColor{
+            background-color: #6c757d !important;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -134,6 +140,19 @@
                     }
                 });
 
+
+                var authUserId = "{{ auth()->id() }}"; // Get authenticated user ID
+
+                // Subscribe to the authenticated user's private chat channel
+                var chatChannel = pusher.subscribe('private-chat.' + authUserId);
+
+                chatChannel.bind('App\\Events\\MessageSent', function(data) {
+                    console.log("New Live Chat Message Received:", data);
+                    if (data && data.message && data.type === "livechat") {
+                        addNotification(`${data.sender_name}: ${data.message}`, 'chat', data.sender_id);
+                    }
+                });
+
                 // Subscribe to order notifications
                 var orderChannel = pusher.subscribe('new-order');
                 orderChannel.bind('new-order.created', function(data) {
@@ -144,7 +163,6 @@
                         updateModalContent(data.message);
                     }
 
-                    
                 });
 
                 // Add a notification to the UI
@@ -213,6 +231,8 @@
                         modalBody.innerHTML = `<h2>${message}</h2>`;
                     }
             </script>
+
+ 
 
 
 

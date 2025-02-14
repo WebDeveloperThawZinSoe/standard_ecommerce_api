@@ -26,24 +26,38 @@ class LiveChatController extends Controller
     
 
     // Debug log
-    Log::info('Chat detail page loaded', ['user_id' => $user_id]);
+    // Log::info('Chat detail page loaded', ['user_id' => $user_id]);
 
     // return view('admin.chat.detail', compact('messages', 'user'));
         return view("customer.livechat",compact("messages","user"));
     }
 
-    public function livechatAdmin(){
-        $users = Message::with('sender', 'receiver')
-        ->select('sender_id', 'receiver_id')
-        ->groupBy('sender_id', 'receiver_id')
-        ->get();
+    public function livechatAdmin()
+    {
+        $adminId = auth()->id(); // Get logged-in admin ID
 
-    return view('admin.chat.index', compact('users'));
-       
+        // Fetch unique users who have chatted with the admin
+        $users = User::whereHas('sentMessages', function ($query) use ($adminId) {
+                    $query->where('receiver_id', $adminId);
+                })
+                ->orWhereHas('receivedMessages', function ($query) use ($adminId) {
+                    $query->where('sender_id', $adminId);
+                })->orderBy("created_at","desc")
+                ->distinct()
+                ->get();
+
+        return view('admin.chat.index', compact('users'));
     }
 
+    
     public function livechatDetail($user_id)
     {
+        Message::where('sender_id', $user_id)->update([
+            "is_read" => 1
+        ]);
+
+        // dd($user_id);
+
         $messages = Message::where(function ($query) use ($user_id) {
                 $query->where('sender_id', Auth::id())->where('receiver_id', $user_id);
             })
@@ -56,7 +70,7 @@ class LiveChatController extends Controller
         $user = User::findOrFail($user_id);
 
         // Debug log
-        Log::info('Chat detail page loaded', ['user_id' => $user_id]);
+        //Log::info('Chat detail page loaded', ['user_id' => $user_id]);
 
         return view('admin.chat.detail', compact('messages', 'user'));
     }
@@ -92,30 +106,38 @@ class LiveChatController extends Controller
     //     }
     // }
     public function sendMessage(Request $request)
-{
-    \Log::info("Test");
-    try {
-        $message = Message::create([
-            'sender_id' => auth()->id(),
-            'receiver_id' => $request->receiver_id,
-            'message' => $request->message,
-        ]);
+    {
+        // \Log::info("Test");
+        try {
+            $message = Message::create([
+                'sender_id' => auth()->id(),
+                'receiver_id' => $request->receiver_id,
+                'message' => $request->message,
+            ]);
 
-        broadcast(new MessageSent($message))->toOthers();
+            broadcast(new MessageSent($message))->toOthers();
 
-        \Log::info('Message sent successfully', ['message_id' => $message->id]);
+            // \Log::info('Message sent successfully', ['message_id' => $message->id]);
 
-        return response()->json([
-            'status' => 'Message Sent!',
-            'message' => $message
-        ]);
-    } catch (\Exception $e) {
-        \Log::error('Message sending failed', ['error' => $e->getMessage()]);
-        return response()->json([
-            'status' => 'Error',
-            'message' => 'Failed to send message'
-        ], 500);
+            return response()->json([
+                'status' => 'Message Sent!',
+                'message' => $message
+            ]);
+        } catch (\Exception $e) {
+            // \Log::error('Message sending failed', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Failed to send message'
+            ], 500);
+        }
     }
-}
+
+    public function clearChat(Request $request){
+       $admin_id = Auth::id();
+       $customer_id = $request->sender;
+       Message::where("sender_id",$customer_id)->where("receiver_id",$admin_id)->delete();
+       Message::where("sender_id",$admin_id)->where("receiver_id",$customer_id)->delete();
+       return redirect()->back()->with('success', 'Clear Chat Success');
+    }
 
 }

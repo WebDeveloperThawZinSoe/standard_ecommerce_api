@@ -29,6 +29,8 @@ class MessageSent implements ShouldBroadcast
         return new PrivateChannel('chat.' . $this->message->receiver_id);
     }
 
+
+
     public function broadcastWith()
     {
 
@@ -38,7 +40,8 @@ class MessageSent implements ShouldBroadcast
             'sender_name' => $this->message->sender->name, // Include sender name
             'receiver_id' => $this->message->receiver_id,
             'receiver_name' => $this->message->receiver->name, // Include receiver name
-            'created_at' => $this->message->created_at->toDateTimeString()
+            'created_at' => $this->message->created_at->toDateTimeString(),
+            "type" => "livechat"
         ];
     }
 }
