@@ -87,7 +87,7 @@
                                     </td>
                                     <td class="product-item-price">
                                         @php
-                                        $currencyCode = session('currency', 'USD');
+                                        $currencyCode = session('currency', 'SGD');
                                         $currency = App\Models\Currency::where('code', $currencyCode)->first();
 
                                         $currencySymbol = $currency->symbol ?? '$';
@@ -113,8 +113,9 @@
                                                 <input type="hidden" name="action" value="sub">
                                                 <button type="submit" class="btn btn-sm btn-secondary">-</button>
                                             </form>
-                                            <input id="demo_vertical7" type="text" value="{{ $card->qty }}" readonly
-                                                class="form-control">
+                                            <input id="demo_vertical7" type="text" value="{{ $card->qty }}"
+                                                class="form-control update-qty" data-id="{{ $card->id }}">
+
                                             <form action="{{ route('cart.update', $card->id) }}" method="POST"
                                                 class="ms-2">
                                                 @csrf
@@ -145,32 +146,77 @@
                     </div>
                 </div>
 
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                $(document).ready(function() {
+                    $(".update-qty").on("change", function() {
+
+                        let cartId = $(this).data("id");
+                        let newQty = $(this).val();
+
+                        // alert(cartId);
+                        if (newQty < 1) {
+                            newQty = 1; // Prevent quantity from being less than 1
+                            $(this).val(1);
+                        }
+
+                        $.ajax({
+                            url: "/card/update/direct/" + cartId,
+                            type: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                qty: newQty
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    location
+                                .reload(); // Refresh the cart to update total price
+                                }
+                            },
+                            error: function() {
+                                alert("Failed to update quantity. Please try again.");
+                            }
+                        });
+                    });
+                });
+                </script>
+
+
                 <!-- Cart Total -->
                 <div class="col-lg-4">
                     <h4 class="title mb15">Cart Total</h4>
                     <div class="cart-detail">
+
+                        @php
+                        $currencyCode = session('currency', 'SGD');
+                        $currency = App\Models\Currency::where('code', $currencyCode)->first();
+
+                        $currencySymbol = $currency->symbol ?? '$';
+                        $exchangeRate = $currency->exchange_rate ?? 1;
+                        @endphp
+                        @php
+
+                        $delivery_count = App\Models\Delivery::where("currency",$currencyCode)->count();
+                        if($delivery_count >= 1){
+                        $delivery = App\Models\Delivery::where("currency",$currencyCode)->first();
+                        $deli_price = $delivery->deli_price;
+                        $mini_price = $delivery->mini_price;
+                        @endphp
                         <div class="icon-bx-wraper style-4 m-b30">
                             <div class="icon-content">
-                                <h6 class="dz-title">Delivery Fee </h6>
+
                                 <p>
-                                    @php
-                                        $currencyCode = session('currency', 'USD');
-                                        $currency = App\Models\Currency::where('code', $currencyCode)->first();
-
-                                        $currencySymbol = $currency->symbol ?? '$';
-                                        $exchangeRate = $currency->exchange_rate ?? 1;
-                                    @endphp
-                                    @php
-
-                                    $delivery = App\Models\Delivery::where("currency",$currencyCode)->first();
-                                    $deli_price = $delivery->deli_price;
-                                    $mini_price = $delivery->mini_price;
-                                    @endphp
-                                    Delivery Fee is {{$deli_price}} {{$currencySymbol}} for orders below {{$mini_price}}
-                                    {{$currencySymbol}} , <b> over {{$mini_price}} {{$currencySymbol}} is free </b>.
+                                <h6 class="dz-title">Delivery Fee </h6>
+                                Delivery Fee is {{$deli_price}} {{$currencySymbol}} for orders below {{$mini_price}}
+                                {{$currencySymbol}} , <b> over {{$mini_price}} {{$currencySymbol}} is free </b>.
                                 </p>
                             </div>
                         </div>
+                        @php
+
+                        }
+                        @endphp
+
 
                         @if($cupon_code)
                         @php
@@ -271,13 +317,13 @@
 
                                         // Fetch delivery settings
                                         $delivery = App\Models\Delivery::where("currency", session("currency",
-                                        "USD"))->first();
+                                        "SGD"))->first();
                                         $deliveryFee = 0;
 
                                         if ($delivery) {
                                         $deliveryFee = ($order_price < $delivery->mini_price) ? $delivery->deli_price :
                                             0;
-                                            
+
                                             }
                                             @endphp
 
@@ -301,12 +347,13 @@
 
                                     <td class="price">
                                         @if ($cupon_code)
-                                        <del>{{ number_format($original_price, 2) }} {{ $currencySymbol }}</del>
+                                        <del>{{ number_format($original_price, 2) }} {{ $currencySymbol }} </del>
                                         <br>
                                         {{ number_format($finalTotal, 2) }} {{ $currencySymbol }}
                                         @else
                                         {{ number_format($finalTotal, 2) }} {{ $currencySymbol }}
                                         @endif
+                                        ( {{ $currencyCode }} )
                                     </td>
                                 </tr>
 

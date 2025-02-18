@@ -1,5 +1,8 @@
 @extends('web.default.master')
 @section('body')
+
+
+
 <style>
 .payment-card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -90,222 +93,151 @@
                                     value="{{ auth()->check() && auth()->user()->email ? auth()->user()->email : old('email') }}">
                             </div>
                         </div>
-                      
 
-                            <!-- Country -->
-                            <div class="col-md-12">
-                                <div class="m-b25">
-                                    <label class="label-title">Country *</label>
-                                    <div class="form-select">
-                                        <select name="country" class="default-select w-100">
-                                            <option value="">Select Country</option>
-                                            <option value="Afghanistan">Afghanistan</option>
-                                            <option value="Albania">Albania</option>
-                                            <option value="Algeria">Algeria</option>
-                                            <option value="Andorra">Andorra</option>
-                                            <option value="Angola">Angola</option>
-                                            <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                                            <option value="Argentina">Argentina</option>
-                                            <option value="Armenia">Armenia</option>
-                                            <option value="Australia">Australia</option>
-                                            <option value="Austria">Austria</option>
-                                            <option value="Azerbaijan">Azerbaijan</option>
-                                            <option value="Bahamas">Bahamas</option>
-                                            <option value="Bahrain">Bahrain</option>
-                                            <option value="Bangladesh">Bangladesh</option>
-                                            <option value="Barbados">Barbados</option>
-                                            <option value="Belarus">Belarus</option>
-                                            <option value="Belgium">Belgium</option>
-                                            <option value="Belize">Belize</option>
-                                            <option value="Benin">Benin</option>
-                                            <option value="Bhutan">Bhutan</option>
-                                            <option value="Bolivia">Bolivia</option>
-                                            <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                                            <option value="Botswana">Botswana</option>
-                                            <option value="Brazil">Brazil</option>
-                                            <option value="Brunei">Brunei</option>
-                                            <option value="Bulgaria">Bulgaria</option>
-                                            <option value="Burkina Faso">Burkina Faso</option>
-                                            <option value="Burundi">Burundi</option>
-                                            <option value="Cabo Verde">Cabo Verde</option>
-                                            <option value="Cambodia">Cambodia</option>
-                                            <option value="Cameroon">Cameroon</option>
-                                            <option value="Canada">Canada</option>
-                                            <option value="Central African Republic">Central African Republic</option>
-                                            <option value="Chad">Chad</option>
-                                            <option value="Chile">Chile</option>
-                                            <option value="China">China</option>
-                                            <option value="Colombia">Colombia</option>
-                                            <option value="Comoros">Comoros</option>
-                                            <option value="Congo (Congo-Brazzaville)">Congo</option>
-                                            <option value="Costa Rica">Costa Rica</option>
-                                            <option value="Croatia">Croatia</option>
-                                            <option value="Cuba">Cuba</option>
-                                            <option value="Cyprus">Cyprus</option>
-                                            <option value="Czechia (Czech Republic)">Czechia</option>
-                                            <option value="Democratic Republic of the Congo">Democratic Republic of the
-                                                Congo</option>
-                                            <option value="Denmark">Denmark</option>
-                                            <option value="Djibouti">Djibouti</option>
-                                            <option value="Dominica">Dominica</option>
-                                            <option value="Dominican Republic">Dominican Republic</option>
-                                            <option value="Ecuador">Ecuador</option>
-                                            <option value="Egypt">Egypt</option>
-                                            <option value="El Salvador">El Salvador</option>
-                                            <option value="Equatorial Guinea">Equatorial Guinea</option>
-                                            <option value="Eritrea">Eritrea</option>
-                                            <option value="Estonia">Estonia</option>
-                                            <option value="Eswatini (Swaziland)">Eswatini</option>
-                                            <option value="Ethiopia">Ethiopia</option>
-                                            <option value="Fiji">Fiji</option>
-                                            <option value="Finland">Finland</option>
-                                            <option value="France">France</option>
-                                            <option value="Gabon">Gabon</option>
-                                            <option value="Gambia">Gambia</option>
-                                            <option value="Georgia">Georgia</option>
-                                            <option value="Germany">Germany</option>
-                                            <option value="Ghana">Ghana</option>
-                                            <option value="Greece">Greece</option>
-                                            <option value="Grenada">Grenada</option>
-                                            <option value="Guatemala">Guatemala</option>
-                                            <option value="Guinea">Guinea</option>
-                                            <option value="Guyana">Guyana</option>
-                                            <option value="Haiti">Haiti</option>
-                                            <option value="Honduras">Honduras</option>
-                                            <option value="Hungary">Hungary</option>
-                                            <option value="Iceland">Iceland</option>
-                                            <option value="India">India</option>
-                                            <option value="Indonesia">Indonesia</option>
-                                            <option value="Iran">Iran</option>
-                                            <option value="Iraq">Iraq</option>
-                                            <option value="Ireland">Ireland</option>
-                                            <option value="Israel">Israel</option>
-                                            <option value="Italy">Italy</option>
-                                            <option value="Jamaica">Jamaica</option>
-                                            <option value="Japan">Japan</option>
-                                            <option value="Jordan">Jordan</option>
-                                            <option value="Kazakhstan">Kazakhstan</option>
-                                            <option value="Kenya">Kenya</option>
-                                            <option value="Kuwait">Kuwait</option>
-                                            <option value="Kyrgyzstan">Kyrgyzstan</option>
-                                            <option value="Laos">Laos</option>
-                                            <option value="Latvia">Latvia</option>
-                                            <option value="Lebanon">Lebanon</option>
-                                            <option value="Malaysia">Malaysia</option>
-                                            <option value="Maldives">Maldives</option>
-                                            <option value="Mexico">Mexico</option>
-                                            <option value="Mongolia">Mongolia</option>
-                                            <option value="Myanmar">Myanmar</option>
-                                            <option value="Nepal">Nepal</option>
-                                            <option value="Netherlands">Netherlands</option>
-                                            <option value="New Zealand">New Zealand</option>
-                                            <option value="Nigeria">Nigeria</option>
-                                            <option value="Norway">Norway</option>
-                                            <option value="Pakistan">Pakistan</option>
-                                            <option value="Philippines">Philippines</option>
-                                            <option value="Poland">Poland</option>
-                                            <option value="Portugal">Portugal</option>
-                                            <option value="Russia">Russia</option>
-                                            <option value="Saudi Arabia">Saudi Arabia</option>
-                                            <option value="Singapore">Singapore</option>
-                                            <option value="South Africa">South Africa</option>
-                                            <option value="South Korea">South Korea</option>
-                                            <option value="Spain">Spain</option>
-                                            <option value="Sweden">Sweden</option>
-                                            <option value="Switzerland">Switzerland</option>
-                                            <option value="Thailand">Thailand</option>
-                                            <option value="United Kingdom">United Kingdom</option>
-                                            <option value="United States">United States</option>
-                                            <option value="Vietnam">Vietnam</option>
-                                            <option value="Zimbabwe">Zimbabwe</option>
-                                        </select>
-                                    </div>
+
+                        <div class="col-md-12">
+                            <div class="m-b25">
+                                <label class="label-title">Country *</label>
+                                <input type="text" id="countrySearch" placeholder="Type to search..." class="form-control w-100"
+                                    onkeyup="filterCountries()" >
+                                <select id="countryList" name="country" class="w-100" size="10" required></select>
+                            </div>
+                        </div>
+
+                        <script>
+                        const countries = [
+                            "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda",
+                            "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain",
+                            "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia",
+                            "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso",
+                            "Burundi", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic",
+                            "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia",
+                            "Cuba", "Cyprus", "Czechia", "Democratic Republic of the Congo", "Denmark", "Djibouti",
+                            "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador",
+                            "Equatorial Guinea",
+                            "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon",
+                            "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea",
+                            "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran",
+                            "Iraq",
+                            "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya",
+                            "Kuwait",
+                            "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Malaysia", "Maldives", "Mexico", "Mongolia",
+                            "Myanmar", "Nepal", "Netherlands", "New Zealand", "Nigeria", "Norway", "Pakistan",
+                            "Philippines", "Poland", "Portugal", "Russia", "Saudi Arabia", "Singapore",
+                            "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", "Thailand",
+                            "United Kingdom", "United States", "Vietnam", "Zimbabwe"
+                        ];
+
+                        const countryList = document.getElementById('countryList');
+
+                        function displayCountries(list) {
+                            countryList.innerHTML = '';
+                            list.forEach(country => {
+                                const option = document.createElement('option');
+                                option.value = country;
+                                option.textContent = country;
+                                countryList.appendChild(option);
+                            });
+                        }
+
+                        function filterCountries() {
+                            const searchTerm = document.getElementById('countrySearch').value.toLowerCase();
+                            const filtered = countries.filter(country =>
+                                country.toLowerCase().includes(searchTerm)
+                            );
+                            displayCountries(filtered);
+                        }
+
+                        // Show all countries on page load
+                        displayCountries(countries);
+                        </script>
+
+
+
+
+
+                        <input type="hidden" id="delivery_fee_input" name="delivery_fee">
+
+                        <!-- City -->
+                        <div class="col-md-12">
+                            <div class="form-group m-b25">
+                                <label class="label-title">City *</label>
+                                <input type="text" name="city" required class="form-control" value="{{ old('city') }}">
+                            </div>
+                        </div>
+
+                        <!-- City -->
+                        <div class="col-md-12">
+                            <div class="form-group m-b25">
+                                <label class="label-title">City Zip Code *</label>
+                                <input type="text" name="city_zip_code" required class="form-control"
+                                    value="{{ old('city_zip_code') }}">
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- Address -->
+                        <div class="col-md-12">
+                            <div class="form-group m-b25">
+                                <label class="label-title">Address *</label>
+                                <textarea name="address" required class="form-control"
+                                    rows="3">{{ old('address') }}</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="col-md-12">
+                            <div class="form-group m-b25">
+                                <label class="label-title">Payment Method *</label>
+                                <div class="form-select">
+                                    <select name="payment_method" required class="default-select w-100"
+                                        onchange="togglePaymentFields()">
+                                        @php $payment_methods = App\Models\PaymentMethod::get(); @endphp
+                                        <option value="">SELECT PAYMENT METHOD</option>
+
+                                        <option value="0">Cash On Delivery</option>
+                                        <option value="stripe">Credit Card</option>
+
+                                    </select>
                                 </div>
                             </div>
+                        </div>
 
-                            <input type="hidden" id="delivery_fee_input" name="delivery_fee">
+                        <!-- Stripe Fields -->
+                        <div class="col-md-12" id="stripeCardField" style="display: none;">
+                            <div id="card-element" class="form-control"></div>
+                            <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
+                        </div>
+                        @php
+                        $cards = auth()->check()
+                        ? App\Models\Card::where('user_id', auth()->id())->with('product_variant')->get()
+                        : App\Models\Card::where('session_id',
+                        session()->getId())->with('product_variant')->get();
 
-                            <!-- City -->
-                            <div class="col-md-12">
-                                <div class="form-group m-b25">
-                                    <label class="label-title">City *</label>
-                                    <input type="text" name="city" required class="form-control"
-                                        value="{{ old('city') }}">
-                                </div>
-                            </div>
+                        $totalPrice = 0;
 
-                            <!-- City -->
-                            <div class="col-md-12">
-                                <div class="form-group m-b25">
-                                    <label class="label-title">City Zip Code *</label>
-                                    <input type="text" name="city_zip_code" required class="form-control"
-                                        value="{{ old('city_zip_code') }}">
-                                </div>
-                            </div>
+                        $card = auth()->check()
+                        ? App\Models\Card::where('user_id', auth()->id())->with('product_variant')->first()
+                        : App\Models\Card::where('session_id',
+                        session()->getId())->with('product_variant')->first();
 
+                        $cupon_code = $card ? $card->coupon_code : null;
+                        @endphp
+                        <input type="hidden" name="cupon_code_id" value="{{$cupon_code}}">
 
-
-
-                            <!-- Address -->
-                            <div class="col-md-12">
-                                <div class="form-group m-b25">
-                                    <label class="label-title">Address *</label>
-                                    <textarea name="address" required class="form-control"
-                                        rows="3">{{ old('address') }}</textarea>
-                                </div>
-                            </div>
-
-                            <!-- Payment Method -->
-                            <div class="col-md-12">
-                                <div class="form-group m-b25">
-                                    <label class="label-title">Payment Method *</label>
-                                    <div class="form-select">
-                                        <select name="payment_method" required class="default-select w-100"
-                                            onchange="togglePaymentFields()">
-                                            @php $payment_methods = App\Models\PaymentMethod::get(); @endphp
-                                            <option value="">SELECT PAYMENT METHOD</option>
-
-                                            <option value="0">Cash On Delivery</option>
-                                            <option value="stripe">Stripe</option>
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Stripe Fields -->
-                            <div class="col-md-12" id="stripeCardField" style="display: none;">
-                                <div id="card-element" class="form-control"></div>
-                                <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
-                            </div>
-                            @php
-                            $cards = auth()->check()
-                            ? App\Models\Card::where('user_id', auth()->id())->with('product_variant')->get()
-                            : App\Models\Card::where('session_id',
-                            session()->getId())->with('product_variant')->get();
-
-                            $totalPrice = 0;
-
-                            $card = auth()->check()
-                            ? App\Models\Card::where('user_id', auth()->id())->with('product_variant')->first()
-                            : App\Models\Card::where('session_id',
-                            session()->getId())->with('product_variant')->first();
-
-                            $cupon_code = $card ? $card->coupon_code : null;
-                            @endphp
-                            <input type="hidden" name="cupon_code_id" value="{{$cupon_code}}">
-
-                            <!-- Submit Button -->
-                            <div class="col-md-12 m-b25">
-                                <button type="submit" class="btn btn-secondary w-100">ORDER NOW</button>
-                            </div>
+                        <!-- Submit Button -->
+                        <div class="col-md-12 m-b25">
+                            <button type="submit" class="btn btn-secondary w-100">ORDER NOW</button>
+                        </div>
 
                     </form>
 
                     <script src="https://js.stripe.com/v3/"></script>
                     <script>
                     const stripe = Stripe(
-                        "pk_test_51QcSLLIbqkytycJ7y40nRkoHrub6sUGpIuYQcfVT1f0T3T0FyRaqWnEZPtAoTlW1Kxccou8BbgCE86xlHJMRZbkl00zAsJRC6x"
+                        "pk_live_51Qd4C5034LQkef8VkKkDku8lb0sItY7gWqGHzDcbSsymGXTcVeRfMV8yB1DnlGDQ4IgvSNSV9h8o3IpQK6sFBV0400RqQ80ZLu"
                     ); // Replace with your Stripe publishable key
                     const elements = stripe.elements();
                     const card = elements.create('card', {
@@ -360,7 +292,7 @@
                     <div class="order-detail sticky-top">
 
                         @php
-                        $currencyCode = session('currency', 'USD');
+                        $currencyCode = session('currency', 'SGD');
                         $currency = App\Models\Currency::where('code', $currencyCode)->first();
                         $currencySymbol = $currency->symbol ?? '$';
                         $exchangeRate = $currency->exchange_rate ?? 1;
@@ -373,21 +305,31 @@
                         $totalPrice = 0; // Initialize total price
                         @endphp
 
+
+                        @php
+
+                        $delivery_count = App\Models\Delivery::where("currency",$currencyCode)->count();
+                        if($delivery_count >= 1){
+                        $delivery = App\Models\Delivery::where("currency",$currencyCode)->first();
+                        $deli_price = $delivery->deli_price;
+                        $mini_price = $delivery->mini_price;
+                        @endphp
                         <div class="icon-bx-wraper style-4 m-b30">
                             <div class="icon-content">
-                                <h6 class="dz-title">Delivery Fee </h6>
-                                <p>
-                                    @php
 
-                                    $delivery = App\Models\Delivery::where("currency",$currencyCode)->first();
-                                    $deli_price = $delivery->deli_price;
-                                    $mini_price = $delivery->mini_price;
-                                    @endphp
-                                    Delivery Fee is {{$deli_price}} {{$currencySymbol}} for orders below {{$mini_price}}
-                                    {{$currencySymbol}} , <b> over {{$mini_price}} {{$currencySymbol}} is free </b>.
+                                <p>
+                                <h6 class="dz-title">Delivery Fee </h6>
+                                Delivery Fee is {{$deli_price}} {{$currencySymbol}} for orders below
+                                {{$mini_price}}
+                                {{$currencySymbol}} , <b> over {{$mini_price}} {{$currencySymbol}} is free </b>.
                                 </p>
                             </div>
                         </div>
+                        @php
+
+                        }
+                        @endphp
+
 
                         @foreach($cards as $card)
                         @php
@@ -471,7 +413,7 @@
 
                                         // Fetch delivery settings
                                         $delivery = App\Models\Delivery::where("currency", session("currency",
-                                        "USD"))->first();
+                                        "SGD"))->first();
                                         $deliveryFee = 0;
 
                                         if ($delivery) {
@@ -507,6 +449,7 @@
                                         @else
                                         {{ number_format($finalTotal, 2) }} {{ $currencySymbol }}
                                         @endif
+                                        ( {{ $currencyCode }} )
                                     </td>
                                 </tr>
 
@@ -541,8 +484,8 @@
     <!-- Icon Box End -->
 
     <script>
-        let delivery_fee = document.getElementById('final_deli_fee').textContent;
-        document.getElementById('delivery_fee_input').value = delivery_fee;
+    let delivery_fee = document.getElementById('final_deli_fee').textContent;
+    document.getElementById('delivery_fee_input').value = delivery_fee;
     </script>
 
 </div>

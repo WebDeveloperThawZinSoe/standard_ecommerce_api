@@ -782,9 +782,9 @@
         ClassicEditor
             .create(document.querySelector('textarea[name="shortdescription"]'), {
                 toolbar: [
-                    'bold', 'italic', 'underline', 'strikethrough',
-                    'link', 'bulletedList', 'numberedList',
-                    'blockQuote', 'insertTable', 'undo', 'redo'
+                    'bold', 'italic', 'underline', 'strikethrough', 
+                    'link', 'bulletedList', 'numberedList', 
+                    'blockQuote', 'insertTable', 'undo', 'redo' 
                 ]
             })
             .catch(error => {
@@ -793,17 +793,19 @@
 
         ClassicEditor
             .create(document.querySelector('textarea[name="description"]'), {
+                ckfinder: {
+                uploadUrl: '{{ route("admin.upload.image") }}?_token={{ csrf_token() }}'
+                },
                 toolbar: [
-                    'bold', 'italic', 'underline', 'strikethrough',
-                    'link', 'bulletedList', 'numberedList',
-                    'blockQuote', 'insertTable', 'undo', 'redo'
+                    'imageUpload', 'bold', 'italic', 'underline', 'link',
+                    'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'undo', 'redo'
                 ]
             })
             .catch(error => {
                 console.error(error);
             });
     });
-    </script>
+</script>
 
 </body>
 

@@ -366,13 +366,13 @@ $currencies = App\Models\Currency::all();
                         <li><a href="/products">Products</a></li>
 
                         <li><a href="/brands">Brands</a></li>
-                        <li><a href="/faq">FAQ</a></li>
+           
                         <li><a href="/order_track">Track</a></li>
                         <li><a href="/contact-us">Contact</a></li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="currencyDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Currency <span class="caret"></span>
+                                Currency ( {{  $currencyCode = session('currency', 'SGD'); }} ) <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
                                 @foreach ($currencies as $currency)

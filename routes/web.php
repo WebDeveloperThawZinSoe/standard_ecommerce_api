@@ -44,6 +44,7 @@ use App\Http\Controllers\VIPRequestController;
 use App\Http\Controllers\CurrencyChangerController;
 use App\Http\Controllers\LiveChatController;
 use App\Http\Controllers\SMSPohController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Auth\SocialAuthController;
 
 
@@ -77,6 +78,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     ]);
     Route::post('/feedback/status/{id}', [ProductFeedBackController::class, 'updateStatus']);
     Route::resource("sms_marketing",SMSMarketingController::class);
+    Route::post('/socailaccount', [GeneralSettingController::class, 'CreateSocialAccount'])->name('socailaccount.store');
+    Route::delete('/socailaccount/{id}', [GeneralSettingController::class, 'DeleteSocialAccount'])->name('socailaccount.delete');
     Route::get("/sms_marketing/phones/list",[SMSMarketingController::class,"phone_lists"])->name("phone.lists");
     /* Product Customzie */
     Route::get("/post/create/v2",[ProductController::class,"create_v2"])->name("products.create.varaint");
@@ -87,6 +90,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/admin/product/update/v2/variant/{variant}', [ProductController::class, 'updateProductV2Varaint'])->name('product.update.v2.variant');
     Route::post('/product/update/v2/variant/add', [ProductController::class, 'addProductV2VaraintAdd'])->name('product.add.v2.variant.add');
     Route::delete('/admin/product/variant/{id}', [ProductController::class, 'deleteVariant'])->name('product.variant.delete');
+    Route::post('/admin/upload/image', [ProductController::class, 'uploadImage'])->name('upload.image');
     Route::put('admin/general_settings/update', [GeneralSettingController::class, 'update'])->name('general_settings.update');
     Route::get('/admin/customers/{id}', [OrderController::class, 'getCustomerDetails'])->name('admin.customers.details');
     Route::put('vip-request/{id}', [AccountTypeController::class, 'updateVIPRequest'])->name('vip.request.update');
@@ -230,7 +234,9 @@ Route::get('auth/{provider}', [SocialAuthController::class, 'redirectToProvider'
 Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])->name('auth.callback');
 Route::get('/change-currency/{currencyCode}', [CurrencyChangerController::class, 'changeCurrency'])->name('change.currency');
 Route::post("/submit/review",[PageController::class,"submitReview"])->name("submit.review");
-
+/* Language */
+Route::get('lang/home', [LanguageController::class, 'index']);
+Route::get('lang/change', [LanguageController::class, 'change'])->name('changeLang');
 /* Push Noti Test */
 // Route::get("/pusher_test",[PageController::class,"pusherTest"]);
 // Route::get("/puster_test_post",[PageController::class,"pushterTestPost"]);
