@@ -1,56 +1,6 @@
 @extends('web.default.master')
 @section('body')
 
-
-@php
-$logo = App\Models\GeneralSetting::where('name', 'logo')->first();
-$generalSettings = App\Models\GeneralSetting::whereIn('name', [
-'about_us',
-'how_to_sell_us',
-'phone_number_1',
-'phone_number_2',
-'phone_number_3',
-'email_1',
-'email_2',
-'email_3',
-'facebook',
-'telegram',
-'discord',
-'viber',
-'skype',
-'announcement',
-'customer_feedback_system',
-'customer_feedback_system_guest',
-'customer_feedback_system_order'
-])->pluck('value', 'name');
-@endphp
-
-<style>
-    .star-rating {
-    direction: rtl;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.star-rating input {
-    display: none;
-}
-
-.star-rating label {
-    color: #ddd;
-    font-size: 24px;
-    padding: 0 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.star-rating label:hover,
-.star-rating label:hover~label,
-.star-rating input:checked~label {
-    color: #ffc107;
-}
-</style>
-
 <style>
 .variant-buttons .variant-option {
     padding: 10px 20px;
@@ -222,6 +172,7 @@ $generalSettings = App\Models\GeneralSetting::whereIn('name', [
                             </div>
 
 
+                           @if($detail_product->product_type == 2)
                             @if($detail_product->variants->count() > 0)
                             <div class="product-variants">
                                 <label>Select Variant:</label>
@@ -270,6 +221,7 @@ $generalSettings = App\Models\GeneralSetting::whereIn('name', [
                                 </div>
                             </div>
                             @endif
+                            @endif
 
                             <div class="product-num">
                                 <div class="btn-quantity light d-xl-block">
@@ -288,12 +240,25 @@ $generalSettings = App\Models\GeneralSetting::whereIn('name', [
                             <!-- Add to Cart Form -->
                             <form method="POST" action="{{ route('cart.add') }}">
                                 @csrf
+                                @if($detail_product->product_type == 2)
                                 <input type="hidden" name="variant_id" id="variant_id">
+                                @elseif($detail_product->product_type == 1)
+                                        @php 
+                                        $varaint_product_id = $detail_product->variants->count() > 0 ? $detail_product->variants->first()->id : null;
+                                        @endphp
+                                <input type="hidden" name="variant_id" value="{{$varaint_product_id}}">
+                                @endif
                                 <input type="hidden" name="quantity" id="form-quantity" value="1">
                                 <!-- Set initial value -->
                                 <div class="btn-group cart-btn">
+                                @if($detail_product->product_type == 2)
                                     <button type="submit" class="btn btn-secondary text-uppercase"
                                         id="add-to-cart-btn">Add To Cart</button>
+                                @elseif($detail_product->product_type == 1)
+                                <button type="submit" class="btn btn-secondary text-uppercase"
+                                >Add To Cart</button>
+
+                                @endif
                                 </div>
                             </form>
                         </div>
@@ -314,7 +279,44 @@ $generalSettings = App\Models\GeneralSetting::whereIn('name', [
         document.getElementById('mainImageLink').href = imageUrl;
     }
 
-    
+    // Variant selection event handler
+    // document.querySelectorAll('.variant-option').forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         button.querySelector('input').checked = true;
+    //         document.querySelectorAll('.variant-option').forEach(btn => btn.classList
+    //             .remove('active'));
+    //         button.classList.add('active');
+
+    //         // Update product price based on selected variant
+    //         const variantPrice = button.getAttribute('data-price');
+    //         const show_price_org = Number(button.getAttribute('data-showPrice'));
+    //         console.log("Parsed Original Price:", show_price_org);
+    //         // Ensure exchangeRate is properly converted
+    //         let exchangeRate = {
+    //             {
+    //                 is_numeric($exchangeRate) ? $exchangeRate : 1
+    //             }
+    //         };
+    //         console.log("Parsed Exchange Rate:", exchangeRate);
+
+    //         let show_price = show_price_org * exchangeRate;
+
+    //         let currencySymbol = "{{ $currencySymbol }}";
+    //         document.getElementById('product-price').innerHTML = show_price.toFixed(2) + " " +
+    //             currencySymbol;
+
+
+    //         // Set the selected variant ID in the hidden form field
+    //         document.getElementById('variant_id').value = button.querySelector('input')
+    //             .value;
+
+    //         // Update main image based on selected variant's image
+    //         const variantImage = button.getAttribute('data-image');
+    //         if (variantImage) {
+    //             changeMainImage(variantImage);
+    //         }
+    //     });
+    // });
 
     // Variant selection event handler
 document.querySelectorAll('.variant-option').forEach(button => {
@@ -387,7 +389,7 @@ document.querySelectorAll('.variant-option').forEach(button => {
 
 
 
-<section class="content-inner-3 pb-0">
+    <section class="content-inner-3 pb-0">
         <div class="container">
             <div class="product-description">
                 <div class="dz-tabs">
@@ -398,115 +400,14 @@ document.querySelectorAll('.variant-option').forEach(button => {
                                 aria-selected="true">Description</button>
                         </li>
 
-                        @if($generalSettings['customer_feedback_system'])
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link position-relative" id="review-tab" data-bs-toggle="tab" data-bs-target="#review-pane"
-                                type="button" role="tab" aria-controls="review-pane"
-                                aria-selected="false">Review   <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    @php 
-                                    $count = App\Models\ProductFeedBack::where('product_id', $detail_product->id)->where("status",1)->count();
-                                    @endphp
-                                    {{$count}}
-                                    <span class="visually-hidden">review counts</span>
-                                </span> </button>
-                        </li>
-
-                        @endif
                     </ul>
-
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
                             aria-labelledby="home-tab" tabindex="0">
                             {!! $detail_product->description !!}
                         </div>
 
-                        <div class="tab-pane fade" id="review-pane" role="tabpanel" aria-labelledby="review-tab"
-                            tabindex="0">
-                            <h3 class="mb-4">Customer Reviews</h3>
-
-                            @php
-                            $reviews = App\Models\ProductFeedBack::where('product_id', $detail_product->id)->where("status",1)->orderBy("id","desc")->get();
-                            @endphp
-
-                            @if($reviews->count() > 0)
-                            <div class="list-group">
-                                @foreach($reviews as $review)
-                                <div class="list-group-item p-3 border rounded shadow-sm mb-3">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h5 class="mb-1">{{ $review->user->name ?? 'Anonymous' }}</h5>
-                                        </div>
-                                        <div class="text-warning">
-                                            @for($i = 1; $i <= 5; $i++) @if($i <=$review->review_star)
-                                                <i class="bi bi-star-fill"></i>
-                                                @else
-                                                <i class="bi bi-star"></i>
-                                                @endif
-                                                @endfor
-                                        </div>
-                                    </div>
-                                    <p class="mt-2 mb-0 text-muted">{{ $review->message }}</p>
-                                </div>
-                                @endforeach
-                            </div>
-
-                            @else
-                            <p class="text-muted">No reviews yet. Be the first to leave a review!</p>
-                            @endif
-
-                            @if($generalSettings['customer_feedback_system_guest'] == "on")
-                            <form action="{{route('submit.review')}}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{$detail_product->id}}">
-                                <div class="mb-3">
-                                    <h5 class="mb-4">Interactive Star Rating</h5>
-                                    <div class="star-rating animated-stars">
-                                        <input type="radio" id="star5" name="rating" value="5">
-                                        <label for="star5" class="bi bi-star-fill"></label>
-                                        <input type="radio" id="star4" name="rating" value="4">
-                                        <label for="star4" class="bi bi-star-fill"></label>
-                                        <input type="radio" id="star3" name="rating" value="3">
-                                        <label for="star3" class="bi bi-star-fill"></label>
-                                        <input type="radio" id="star2" name="rating" value="2">
-                                        <label for="star2" class="bi bi-star-fill"></label>
-                                        <input type="radio" id="star1" name="rating" value="1">
-                                        <label for="star1" class="bi bi-star-fill"></label>
-                                    </div>
-                                    
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="message" class="form-label">Your Review</label>
-                                    <textarea class="form-control" name="message" id="message" rows="4"
-                                        required></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <button type="submit" class="btn btn-primary">Submit Review</button>
-                                </div>
-                            </form>
-
-                            <script>
-                            document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
-                                star.addEventListener('click', function() {
-                                    this.style.transform = 'scale(1.2)';
-                                    setTimeout(() => {
-                                        this.style.transform = 'scale(1)';
-                                    }, 200);
-                                });
-                            });
-                            </script>
-
-                            @else
-                            <p class="text-muted">To leave a review, please <a href="/login">log in here</a>.</p>
-                            @endif
-                        </div>
                     </div>
-
-
-
-
                 </div>
             </div>
         </div>

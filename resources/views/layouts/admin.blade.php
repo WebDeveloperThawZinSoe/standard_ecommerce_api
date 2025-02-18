@@ -446,13 +446,36 @@
                             </a>
                         </li>
 
-                        <li class="nav-item dropdown open">
-                            <a href="/admin/general_settings">
+                        <!-- <li class="nav-item dropdown open">
+                            <a href="{{route('admin.sms_marketing.index')}}">
                                 <span class="icon-holder">
-                                    <i class="anticon anticon-mail"></i> <!-- SMS Marketing icon -->
+                                    <i class="anticon anticon-mail"></i> 
                                 </span>
                                 <span class="title">SMS Marketing</span>
                             </a>
+                        </li> -->
+
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle" href="javascript:void(0);">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-mail"></i>
+                                </span>
+                                <span class="title">SMS Marketing</span>
+                                <span class="arrow">
+                                    <i class="arrow-icon"></i>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{route('admin.phone.lists')}}">Phone Number List</a>
+                                </li>
+                                <li>
+                                    <a href="#">SMS Template</a>
+                                </li>
+                                <li>
+                                    <a href="#">Send SMS</a>
+                                </li>
+                            </ul>
                         </li>
 
 

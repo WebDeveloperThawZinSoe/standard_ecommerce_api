@@ -32,6 +32,8 @@ use App\Http\Controllers\Admin\CuponCodeController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\AdminDeliveryController;
 use App\Http\Controllers\Admin\ProductFeedBackController;
+use App\Http\Controllers\Admin\MarketingController;
+use App\Http\Controllers\Admin\SMSMarketingController;
 use App\Http\Controllers\UpdateCodeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CartController;
@@ -41,6 +43,7 @@ use App\Http\Controllers\UserOrderController;
 use App\Http\Controllers\VIPRequestController;
 use App\Http\Controllers\CurrencyChangerController;
 use App\Http\Controllers\LiveChatController;
+use App\Http\Controllers\SMSPohController;
 use App\Http\Controllers\Auth\SocialAuthController;
 
 
@@ -73,6 +76,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         'destroy' => 'feedback.destroy',
     ]);
     Route::post('/feedback/status/{id}', [ProductFeedBackController::class, 'updateStatus']);
+    Route::resource("sms_marketing",SMSMarketingController::class);
+    Route::get("/sms_marketing/phones/list",[SMSMarketingController::class,"phone_lists"])->name("phone.lists");
     /* Product Customzie */
     Route::get("/post/create/v2",[ProductController::class,"create_v2"])->name("products.create.varaint");
     Route::post("/admin/product/store/v2",[ProductController::class,"store_variant_product"])->name('store_variant_product');
@@ -225,5 +230,11 @@ Route::get('auth/{provider}', [SocialAuthController::class, 'redirectToProvider'
 Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])->name('auth.callback');
 Route::get('/change-currency/{currencyCode}', [CurrencyChangerController::class, 'changeCurrency'])->name('change.currency');
 Route::post("/submit/review",[PageController::class,"submitReview"])->name("submit.review");
+
+/* Push Noti Test */
 // Route::get("/pusher_test",[PageController::class,"pusherTest"]);
 // Route::get("/puster_test_post",[PageController::class,"pushterTestPost"]);
+
+
+/* SMS Poh Test */
+Route::get("/sms_test",[SMSPohController::class,"sms_test"]);
