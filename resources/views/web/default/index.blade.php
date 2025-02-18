@@ -92,6 +92,7 @@ $generalSettings = App\Models\GeneralSetting::whereIn('name', [
     </marquee>
     @endif
 
+
     <!--Recommend Section Start-->
     <section class="content-inner-1 ">
         <div class="container">

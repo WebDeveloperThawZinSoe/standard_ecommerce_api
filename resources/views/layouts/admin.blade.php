@@ -537,6 +537,15 @@
                         </li>
 
 
+                        <li class="nav-item dropdown open">
+                            <a href="/admin/delivery">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-flag"></i>
+                                </span>
+                                <span class="title">Language Setting</span>
+                            </a>
+                        </li>
+
 
                         <li class="nav-item dropdown open">
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

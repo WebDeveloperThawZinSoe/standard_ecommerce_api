@@ -368,7 +368,7 @@ $currencies = App\Models\Currency::all();
                         <li><a href="/brands">Brands</a></li>
            
                         <li><a href="/order_track">Track</a></li>
-                        <li><a href="/contact-us">Contact</a></li>
+                        <!-- <li><a href="/contact-us">Contact</a></li> -->
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="currencyDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -380,6 +380,17 @@ $currencies = App\Models\Currency::all();
                                         href="{{ route('change.currency', $currency->code) }}">{{ $currency->name }}
                                         ({{ $currency->symbol }})</a></li>
                                 @endforeach
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="Language" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Language <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="Language">
+                            <li><a href="{{ url('set-locale/en') }}">English</a></li>
+                            <li><a href="{{ url('set-locale/my') }}">မြန်မာ</a></li>
                             </ul>
                         </li>
                         <li class="show_only_in_mobile">

@@ -237,6 +237,12 @@ Route::post("/submit/review",[PageController::class,"submitReview"])->name("subm
 /* Language */
 Route::get('lang/home', [LanguageController::class, 'index']);
 Route::get('lang/change', [LanguageController::class, 'change'])->name('changeLang');
+/* Language  But Using Db */
+// Route::get('set-locale/{locale}', function ($locale, Request $request) {
+//     session(['locale' => $locale]);
+//     app()->setLocale($locale);
+//     return redirect()->back();
+// });
 /* Push Noti Test */
 // Route::get("/pusher_test",[PageController::class,"pusherTest"]);
 // Route::get("/puster_test_post",[PageController::class,"pushterTestPost"]);
