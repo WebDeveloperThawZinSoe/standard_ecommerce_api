@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\GeneralSetting;
 use App\Models\Gallery;
 use App\Models\SocialAccount;
+use Illuminate\Support\Str;
 
 class GeneralSettingController extends Controller
 {
@@ -141,22 +142,42 @@ class GeneralSettingController extends Controller
         return redirect()->route('admin.general_settings.index')->with('success', ' Delete successfully.');
     }
 
+
+
     public function CreateSocialAccount(Request $request){
         $request->validate([
+            "icon" => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'social_name' => 'required|string|max:255',
             'link' => 'required|string|max:255',
-       ]);
-   
-       
-       SocialAccount::create([
-           'socail_name' => $request->social_name,
-           'social_link' => $request->link,
-          
-       ]);
+        ]);
+    
+        // Store the uploaded file
+        // if ($request->hasFile('icon')) {
+        //     // Generate a unique file name
+        //     $iconName = Str::random(40) . '.' . $request->file('icon')->getClientOriginalExtension();
+        //     $iconPath = $request->file('icon')->storeAs('public/images/icon', $iconName); // Save icon in the specified directory
+        // } else {
+        //     return redirect()->back()->with('error', 'Icon upload failed.');
+        // }
 
+        if ($request->hasFile('icon')) {
+            $file = $request->file('icon');
+            $thumbnailName = 'icon_' . time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('icon'), $thumbnailName);
+            $iconPath = 'icon/' . $thumbnailName;
+        }
+    
+        // Create a new social account entry
+        SocialAccount::create([
+            'socail_name' => $request->social_name,
+            'social_link' => $request->link,
+            'icon' => $iconPath, // Save the stored file path in the database
+        ]);
+    
         return redirect()->route('admin.general_settings.index')->with('success', 'Insert successfully.');
     }
-
+    
+    
     public function DeleteSocialAccount($id){
         $social = SocialAccount::findOrFail($id);
         

@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\AdminDeliveryController;
 use App\Http\Controllers\Admin\ProductFeedBackController;
 use App\Http\Controllers\Admin\MarketingController;
 use App\Http\Controllers\Admin\SMSMarketingController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\UpdateCodeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CartController;
@@ -76,6 +77,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         'update' => 'feedback.update',
         'destroy' => 'feedback.destroy',
     ]);
+    Route::resource("blog",BlogController::class);  
     Route::post('/feedback/status/{id}', [ProductFeedBackController::class, 'updateStatus']);
     Route::resource("sms_marketing",SMSMarketingController::class);
     Route::post('/socailaccount', [GeneralSettingController::class, 'CreateSocialAccount'])->name('socailaccount.store');
@@ -129,6 +131,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/send-message', [LiveChatController::class,"sendMessage"]);
     Route::post("/clear-chat",[LiveChatController::class,"clearChat"])->name("messages.clear");
     Route::post("/livechat/2",[LiveChatController::class,"livechatDetail2"])->name("messages.detail2");
+
+    //PostVideo
+    Route::post("/post/video",[MarketingController::class,"storeVideo"])->name("video.store");
+
 });
 
 Route::middleware(['auth', 'manager'])->prefix('admin')->name('admin.')->group(function () {
@@ -234,6 +240,9 @@ Route::get('auth/{provider}', [SocialAuthController::class, 'redirectToProvider'
 Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])->name('auth.callback');
 Route::get('/change-currency/{currencyCode}', [CurrencyChangerController::class, 'changeCurrency'])->name('change.currency');
 Route::post("/submit/review",[PageController::class,"submitReview"])->name("submit.review");
+/* Blog */
+Route::get("/our-teach",[PageController::class,"blog"])->name("blog");
+Route::get("/our-teach/{id}",[PageController::class,"blogDetail"])->name("blog.detail");
 /* Language */
 Route::get('lang/home', [LanguageController::class, 'index']);
 Route::get('lang/change', [LanguageController::class, 'change'])->name('changeLang');

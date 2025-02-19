@@ -437,6 +437,7 @@
                         </li>
 
 
+
                         <li class="nav-item dropdown open">
                             <a href="/admin/general_settings">
                                 <span class="icon-holder">
@@ -538,11 +539,11 @@
 
 
                         <li class="nav-item dropdown open">
-                            <a href="/admin/delivery">
+                            <a href="/admin/blog">
                                 <span class="icon-holder">
                                     <i class="anticon anticon-flag"></i>
                                 </span>
-                                <span class="title">Language Setting</span>
+                                <span class="title">Blog</span>
                             </a>
                         </li>
 
@@ -802,6 +803,21 @@
 
         ClassicEditor
             .create(document.querySelector('textarea[name="description"]'), {
+                ckfinder: {
+                uploadUrl: '{{ route("admin.upload.image") }}?_token={{ csrf_token() }}'
+                },
+                toolbar: [
+                    'imageUpload', 'bold', 'italic', 'underline', 'link',
+                    'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'undo', 'redo'
+                ]
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+
+            ClassicEditor
+            .create(document.querySelector('textarea[name="content"]'), {
                 ckfinder: {
                 uploadUrl: '{{ route("admin.upload.image") }}?_token={{ csrf_token() }}'
                 },

@@ -34,54 +34,52 @@ $generalSettings = App\Models\GeneralSetting::whereIn('name', [
                                 <p><span>Phone</span>: {{ $generalSettings->get('phone_number_1') }}</p>
                             </li>
                             @endif
-                           
+
 
                         </ul>
                         <div class="dz-social-icon">
                             <ul>
-                                @if($facebook = $generalSettings->get('facebook'))
-                                <li><a class="fab fa-facebook-f" target="_blank" href="{{$facebook}}"></a></li>
+                                @php
+                                $socials = App\Models\SocialAccount::get();
+                                @endphp
+                                <div class="dz-social-icon" bis_skin_checked="1">
+                                    <ul>
+                                    @if($socials->isNotEmpty())
+                                    @foreach($socials as $social)
+                                        <li><a href="{{ $social->social_link }}" target="_blank">
+                                        <img src="{{asset($social->icon)}}" alt="" style="width:30px;height:30px;">
+                                    </a></li>
+                                        
+                                                @endforeach
                                 @endif
-                                @if($twitter = $generalSettings->get('twitter'))
-                                <li><a class="fab fa-twitter" target="_blank" href="{{$twitter}}"></a></li>
-                                @endif
-                                @if($linkedin = $generalSettings->get('linkedin'))
-                                <li><a class="fab fa-linkedin-in" target="_blank" href="{{$linkedin}}"></a></li>
-                                @endif
-                                @if($instagram = $generalSettings->get('instagram'))
-                                <li><a class="fab fa-instagram" target="_blank" href="{{$instagram}}"></a></li>
-                                @endif
-                                @if($viber = $generalSettings->get('viber'))
-                                <li><a class="fab fa-viber" target="_blank" href="{{$viber}}"></a></li>
-                                @endif
-                                @if($telegram = $generalSettings->get('telegram'))
-                                <li><a class="fab fa-telegram" target="_blank" href="{{$telegram}}"></a></li>
-                                @endif
-                                @if($discord = $generalSettings->get('discord'))
-                                <li><a class="fab fa-discord" target="_blank" href="{{$discord}}"></a></li>
-                                @endif
+                                    </ul>
+                                </div>
+                               
+                            
+                                
+
+                             
                             </ul>
                         </div>
                     </div>
                 </div>
-				<div class="col-xl-3 col-md-4 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-xl-3 col-md-4 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="widget widget_about me-2">
-                        <div class="footer-logo logo-white">
-
-                        </div>
+                        <h5 class="footer-title">Our Teach</h5>
                         <ul class="widget-address">
-                          
+
                             @php
-                            $socialAccounts = App\Models\SocialAccount::all();
+                            $blogs = App\Models\Blog::where("is_published",1)->take(5)->get();
                             @endphp
 
-                            @if($socialAccounts->isNotEmpty())
+                            @if($blogs->isNotEmpty())
                             <ul>
-                                @foreach($socialAccounts as $account)
+                                @foreach($blogs as $blog)
                                 <li>
                                     <p>
-                                        <span>{{ $account->socail_name }}</span>:
-                                        <a href="{{ $account->social_link }}" target="_blank">{{ $account->social_link }}</a>
+
+                                        <a href="/our-teach/{{ $blog->id }}" target="_blank">{{ $blog->title }}</a>
+                                        <hr>
                                     </p>
                                 </li>
                                 @endforeach
@@ -89,7 +87,7 @@ $generalSettings = App\Models\GeneralSetting::whereIn('name', [
                             @endif
 
                         </ul>
-                      
+
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-3 col-sm-4 col-4 wow fadeInUp" data-wow-delay="0.3s">

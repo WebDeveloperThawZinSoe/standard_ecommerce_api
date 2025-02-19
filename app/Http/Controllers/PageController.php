@@ -17,6 +17,7 @@ use App\Models\GeneralSetting;
 use App\Events\NewUserRegisterEvent;
 use App\Models\User;
 use App\Models\Theme;
+use App\Models\Blog;
 
 class PageController extends Controller
 {
@@ -383,6 +384,7 @@ class PageController extends Controller
                 'Accept-Language' => $request->header('Accept-Language'),
             ];
             $feedback->user_information_data = json_encode($userInfo);
+    
         }
 
         // Save feedback and return response
@@ -406,4 +408,14 @@ class PageController extends Controller
         return response()->json(['status' => 'Event dispatched']);
     }
         
+    public function blog(){
+        $blogs = Blog::where("is_published",1)->get();
+        return view('web.default.blog',compact("blogs"));
+    }
+
+    public function blogDetail($id){
+        $blog = Blog::findOrFail($id);
+        return view('web.default.blogDetail',compact("blog"));
+    }
+
 }

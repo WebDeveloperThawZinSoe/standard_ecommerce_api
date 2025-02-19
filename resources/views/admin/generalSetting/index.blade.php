@@ -128,21 +128,22 @@
                 <form method="POST" action="{{ route('admin.socailaccount.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label" for="social_name">Socail Name <span style="color:red"> * </span></label>
-                        <select name="social_name" class="form-control"  id="social_name">
-                            <option value="Facebook">Facebook</option>
-                            <option value="Telegram">Telegram</option>
-                            <option value="Tiktok">Tiktok</option>
-                            <option value="Discord">Discord</option>
-                            <option value="Viber">Viber</option>
-                            <option value="Skye">Skype</option>
-                        </select>
+                        <label class="form-label" for="social_name">Name <span style="color:red"> * </span></label>
+                       <input type="text" class="form-control" id="social_name" name="social_name" placeholder="" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="link">Link <span style="color:red"> * </span></label>
                         <input type="text" class="form-control" id="link" name="link" placeholder="" required>
                     </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label" for="icon">Icon <span style="color:red"> * </span></label>
+                        <input type="file" class="form-control" id="icon" name="icon" placeholder="" required>
+                    </div>
+
+                  
 
                    
                     <button type="submit" class="btn btn-primary">Create</button>
@@ -174,7 +175,9 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $socail->socail_name }}</td>
 
-                                <td> <a href="{{ $socail->social_link }}" target="_blank">Click To View</a> </td>
+                                <td> <a href="{{ $socail->social_link }}" target="_blank">
+                                    <img src="{{asset($socail->icon)}}" alt="" style="width:80px;height:80px;">
+                                </a> </td>
                                
                                 <td>
                                     <form action="{{ route('admin.socailaccount.delete', $socail->id) }}" method="POST"
